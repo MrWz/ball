@@ -5,10 +5,12 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="uid" property="uid" jdbcType="VARCHAR"/>
         <result column="user_uid" property="userUid" jdbcType="VARCHAR"/>
+        <result column="type_uid" property="typeUid" jdbcType="VARCHAR"/>
         <result column="description" property="description" jdbcType="VARCHAR"/>
-        <result column="time" property="time" jdbcType="TIMESTAMP"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
         <result column="place" property="place" jdbcType="VARCHAR"/>
         <result column="people_num" property="peopleNum" jdbcType="INTEGER"/>
+        <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP"/>
         <result column="deleted" property="deleted" jdbcType="BIT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
@@ -18,36 +20,38 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.xaut.entity.GameInfo">
-    insert into game_info (id, uid, user_uid, 
-      description, time, place, 
-      people_num, deleted, create_time, 
+    insert into game_info (id, uid, user_uid, type_uid,
+      description, start_time, place,
+      people_num, release_time, deleted, create_time,
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userUid,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{place,jdbcType=VARCHAR}, 
-      #{peopleNum,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userUid,jdbcType=VARCHAR},  #{typeUid,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{place,jdbcType=VARCHAR},
+      #{peopleNum,jdbcType=INTEGER}, #{releaseTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.xaut.entity.GameInfo">
     update game_info
     set uid = #{uid,jdbcType=VARCHAR},
       user_uid = #{userUid,jdbcType=VARCHAR},
+      type_uid = #{typeUid,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
       place = #{place,jdbcType=VARCHAR},
       people_num = #{peopleNum,jdbcType=INTEGER},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select id, uid, user_uid, description, time, place, people_num, deleted, create_time, 
+    select id, uid, user_uid, type_uid, description, start_time, place, people_num, release_time, deleted, create_time,
     update_time
     from game_info
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, uid, user_uid, description, time, place, people_num, deleted, create_time, 
+    select id, uid, user_uid, type_uid, description, start_time, place, people_num, release_time, deleted, create_time,
     update_time
     from game_info
   </select>

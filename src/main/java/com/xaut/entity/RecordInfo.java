@@ -14,17 +14,7 @@ public class RecordInfo {
 
     private String uid;
 
-    private Integer num;
-
-    private Integer score;
-
-    private Integer assists;
-
-    private Integer rebound;
-
-    private Integer block;
-
-    private Integer steal;
+    private String typeUid;
 
     private Boolean deleted;
 

@@ -1,0 +1,184 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=GBK">
+    <title>圈网 | 登录 - 中国领先的社交网络 </title>
+    <link href="http://ppimg.niwota.com/sta/css/global.css" rel="stylesheet" type="text/css">
+
+    <link href="/css/reg.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" language="javascript" src="http://ppimg.niwota.com/js/ctlutil.js"></script>
+</head>
+<body class="full_page">
+<div id="pageContainer">
+
+
+    <script type="text/javascript" language="javascript" src="http://ppimg.niwota.com/js/string.js"></script>
+    <script type="text/javascript" language="javascript">
+        function checkloginform() {
+            if (trim(document.loginform.username.value).length == 0 || document.loginform.username.value == 'email/用户名') {
+                alert("请输入email或用户名！");
+                document.loginform.username.focus();
+                return false;
+            }
+
+            if (trim(document.loginform.password.value).length == 0) {
+                alert("密码不能为空，请重新输入！");
+                document.loginform.password.focus();
+                return false;
+            }
+            document.loginform.submitlogin.disabled = true
+            return true;
+        }
+    </script>
+
+    <div id="header">
+        <p id="siteLogo"><a href="http://www.niwota.com">圈网</a></p>
+        <ul id="siteNav">
+            <li><a href="http://www.niwota.com">首页</a></li>
+            <li class="hasChilds">
+                <a href="http://www.niwota.com/user/usersubmsg.jsp">圈子</a>
+                <span class="more" onmouseover="dropMenu(this.parentNode);"
+                      onmouseout="hideMenu(this.parentNode);"></span>
+                <ul id="quanzi_ul" onmouseover="dropMenu(this.parentNode);" onmouseout="hideMenu(this.parentNode);">
+                    <li><a href="http://www.niwota.com/allmyclub.jsp">我的圈子</a></li>
+                    <li><a href="http://www.niwota.com/user/usersubmsg.jsp">圈内话题</a></li>
+                    <li><a href="http://www.niwota.com/base/myteamalbum.jsp">圈内相册</a></li>
+                    <li><a href="http://www.niwota.com/jiaoyou/myteamactive.jsp">圈内活动</a></li>
+                    <li><a href="http://bendi.niwota.com/groups.jsp">热门圈子</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="http://bendi.niwota.com">同城</a>
+            </li>
+            <li class="hasChilds">
+                <a href="http://bendi.niwota.com/actives.jsp">活动</a>
+                <span class="more" onmouseover="dropMenu(this.parentNode);"
+                      onmouseout="hideMenu(this.parentNode);"></span>
+                <ul id="friend_ul" onmouseover="dropMenu(this.parentNode);" onmouseout="hideMenu(this.parentNode);">
+                    <li><a href="http://www.niwota.com/jiaoyou/myact.jsp">我的活动</a></li>
+                    <li><a href="http://www.niwota.com/jiaoyou/friendactive.jsp">好友的活动</a></li>
+                    <li><a href="http://bendi.niwota.com/actives.jsp">热门活动</a></li>
+                    <li><a href="http://www.niwota.com/jiaoyou/myteamactive.jsp">圈内活动</a></li>
+                </ul>
+            </li>
+            <li class="hasChilds">
+                <a onmouseover="dropMenu(this.parentNode);" onmouseout="hideMenu(this.parentNode);"
+                   href="javascript:void(0)">游戏应用</a>
+                <ul onmouseover="dropMenu(this.parentNode);" onmouseout="hideMenu(this.parentNode);" class="menu-apps">
+                    <div>
+                        <li><a href="http://hero.niwota.com/user/dologin.jsp" target="_blank">武林英雄</a></li>
+                        <li><a href="http://50sgbak.niwota.com/user/dologin.jsp" target="_blank">武林三国</a></li>
+                        <li><a href="http://rxsg.niwota.com/user/dologin.jsp" target="_blank">热血三国</a></li>
+                        <li><a href="http://bendi.niwota.com/actives.jsp">活动</a></li>
+                        <li><a href="http://blog.niwota.com/amigo/friend_log.jsp">博客</a></li>
+                    </div>
+
+                    <li><a href="http://photo.niwota.com/myphoto/friend_photo.jsp">相册</a></li>
+                    <li><a href="http://bendi.niwota.com/network/moresubmsg.jsp">话题</a></li>
+                    <li><a href="http://t.niwota.com/miniblog.jsp">记录</a></li>
+                    <li><a href="http://bendi.niwota.com/members.jsp">会员</a></li>
+                    <li><a href="http://blog.niwota.com/music/friend_mbox.jsp">音乐</a></li>
+                    <li><a href="http://www.niwota.com/moreapp.jsp">更多应用</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul id="userNav">
+        </ul>
+        <form id="top_search" name="searchForm" method="GET" action="http://sousuo.niwota.com/cse/search"
+              target="_blank">
+            <input name="s" type="hidden" value="13720372448591372630">
+            <p>
+                <input name="q" type="text" class="search_text" value="查找好友、活动、圈子"
+                       onfocus="javascript:if(this.value=='查找好友、活动、圈子'){this.value=''}"
+                       onblur="javascript:if(this.value==''){this.value='查找好友、活动、圈子'}">
+                <button type="submit" class="search_button">搜索</button>
+            </p>
+        </form>
+    </div>
+
+
+    <div id="main">
+        <div id="welcome_container">
+            <div id="welcome_page" class="clearfix" style="width:880px;">
+                <div id="login">
+                    <h2>老用户登录</h2>
+
+
+                    <form name="loginform" method="POST" action="/user/login_page.jsp"
+                          onsubmit="return checkloginform(this);">
+
+                        <input type="hidden" name="requestPath" value="http://bendi.niwota.com/">
+
+                        <input type="hidden" name="doLogin" value="true">
+                        <p>
+                            <label class="f-label">帐户</label>
+                            <input style="width:160px" name="username" type="text" class="fl-text" maxlength="50"
+                                   value="15009209055@163.com">
+                            <span class="hint" style="width:150px">可以用Email或用户名登录</span>
+                        </p>
+                        <p>
+                            <label class="f-label">密码</label>
+                            <input style="width:160px" name="password" type="password" class="fl-text" maxlength="50">
+                        </p>
+
+                        <p class="f-action">
+                            <input name="submitlogin" type="image" src="/images/btn_login.png" alt="登录">
+                            <label class="f-check">
+                                <input name="remember" type="checkbox" value="true" checked="checked">
+                                记住我</label>
+                        </p>
+
+                        <p class="f-action"><a href="http://www.niwota.com/user/getpw.jsp">忘记密码？</a> | <a
+                                href="/aboutus/help.jsp" target="_blank">在线求助</a></p>
+                    </form>
+                </div>
+                <div style="float: right;">
+                    <iframe src="http://user.niwota.com/user/regforlogin.jsp" frameborder="0" scrolling="no" width="384"
+                            height="303">
+                    </iframe>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+    <div id="footer" class="clearfix">
+        <ul id="foot_links" class="clearfix">
+            <li><b><a href="http://bendi.niwota.com/network/">同城</a></b> <a href="http://bendi.niwota.com/actives.jsp">活动</a>
+                - <a href="http://bendi.niwota.com/groups.jsp">圈子</a> - <a
+                        href="http://bendi.niwota.com/members.jsp">会员</a> - <a
+                        href="http://bendi.niwota.com/network/moresubmsg.jsp">话题</a> - <a
+                        href="http://photo.niwota.com/hotphotos.jsp">照片</a></li>
+            <li><b><a href="javascript:void(0)">兴趣</a></b> <a
+                    href="http://bendi.niwota.com/network/network.jsp?type=20">运动</a> - <a
+                    href="http://bendi.niwota.com/network/network.jsp?type=26">户外</a> - <a
+                    href="http://bendi.niwota.com/network/network.jsp?type=27">夜生活</a> - <a
+                    href="http://bendi.niwota.com/network/network.jsp?type=8">情感</a> - <a
+                    href="http://bendi.niwota.com/network/moreteam.jsp">更多</a></li>
+            <li><b><a href="http://bendi.niwota.com/actives.jsp">活动</a></b> <a
+                    href="http://bendi.niwota.com/actives.jsp">同城热门</a> - <a
+                    href="http://bendi.niwota.com/actives.jsp?doQuery=true&amp;m=0&amp;type=10">羽毛球</a> - <a
+                    href="http://bendi.niwota.com/actives.jsp?doQuery=true&amp;m=0&amp;type=16">户外</a></li>
+            <li><b><a href="http://bendi.niwota.com/groups.jsp">圈子</a></b> <a href="http://bendi.niwota.com/groups.jsp">热门</a>
+                - <a href="http://www.niwota.com/user/usersubmsg.jsp">圈内话题</a> - <a
+                        href="http://www.niwota.com/base/myteamalbum.jsp">圈内照片</a> - <a
+                        href="http://www.niwota.com/jiaoyou/myteamactive.jsp">圈内活动</a></li>
+        </ul>
+
+        <ul id="foot_nav" class="clearfix">
+            <li><a href="http://www.niwota.com/aboutus/aboutad.htm" target="_blank">广告投放</a></li>
+            <li><a href="http://www.niwota.com/aboutus/aboutbiz.htm" target="_blank">投资合作</a></li>
+            <li><a href="http://www.niwota.com/aboutus/aboutjob.htm" target="_blank">圈网招聘</a></li>
+            <li><a href="http://www.niwota.com/aboutus/aboutindex.htm" target="_blank">关于圈网</a></li>
+            <li><a href="http://www.niwota.com/aboutus/aboutservice.htm" target="_blank">服务条款</a></li>
+            <li><a href="http://www.niwota.com/aboutus/aboutnoright.htm" target="_blank">免责声明</a></li>
+            <li><a href="http://www.niwota.com/aboutus/help.jsp">在线求助</a></li>
+        </ul>
+        <p id="copyright">niwota.com ©2010 <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP证060542号</a>
+            京ICP备05052219号 网络安全备案号1101081708</p>
+    </div>
+</div>
+
+
+</body>
+</html>

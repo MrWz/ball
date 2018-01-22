@@ -4,12 +4,7 @@
     <resultMap id="BaseResultMap" type="com.xaut.entity.RecordInfo">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="uid" property="uid" jdbcType="VARCHAR"/>
-        <result column="num" property="num" jdbcType="INTEGER"/>
-        <result column="score" property="score" jdbcType="INTEGER"/>
-        <result column="assists" property="assists" jdbcType="INTEGER"/>
-        <result column="rebound" property="rebound" jdbcType="INTEGER"/>
-        <result column="block" property="block" jdbcType="INTEGER"/>
-        <result column="steal" property="steal" jdbcType="INTEGER"/>
+        <result column="type_uid" property="typeUid" jdbcType="INTEGER"/>
         <result column="deleted" property="deleted" jdbcType="BIT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
@@ -19,37 +14,28 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.xaut.entity.RecordInfo">
-    insert into record_info (id, uid, num, 
-      score, assists, rebound, 
-      block, steal, deleted, 
-      create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
-      #{score,jdbcType=INTEGER}, #{assists,jdbcType=INTEGER}, #{rebound,jdbcType=INTEGER}, 
-      #{block,jdbcType=INTEGER}, #{steal,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into record_info (id, uid, type_uid,
+      deleted, create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{typeUid,jdbcType=VARCHAR},
+    #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.xaut.entity.RecordInfo">
     update record_info
     set uid = #{uid,jdbcType=VARCHAR},
-      num = #{num,jdbcType=INTEGER},
-      score = #{score,jdbcType=INTEGER},
-      assists = #{assists,jdbcType=INTEGER},
-      rebound = #{rebound,jdbcType=INTEGER},
-      block = #{block,jdbcType=INTEGER},
-      steal = #{steal,jdbcType=INTEGER},
+      type_uid = #{typeUid,jdbcType=VARCHAR},
       deleted = #{deleted,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select id, uid, num, score, assists, rebound, block, steal, deleted, create_time, 
+    select id, uid, type_uid, deleted, create_time,
     update_time
     from record_info
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, uid, num, score, assists, rebound, block, steal, deleted, create_time, 
+    select id, uid, type_uid, deleted, create_time,
     update_time
     from record_info
   </select>

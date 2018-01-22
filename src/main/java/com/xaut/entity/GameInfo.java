@@ -16,13 +16,17 @@ public class GameInfo {
 
     private String userUid;
 
+    private String typeUid;
+
     private String description;
 
-    private Date time;
+    private Date startTime;
 
     private String place;
 
     private Integer peopleNum;
+
+    private Date releaseTime;
 
     private Boolean deleted;
 

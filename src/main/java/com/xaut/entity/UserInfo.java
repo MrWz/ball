@@ -15,9 +15,15 @@ public class UserInfo {
 
     private String uid;
 
+    private String email;
+
     private String name;
 
     private String password;
+
+    private String imagePath;
+
+    private Date loginTime;
 
     private Boolean deleted;
 

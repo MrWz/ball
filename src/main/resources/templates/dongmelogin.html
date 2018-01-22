@@ -1,0 +1,173 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>登录动么-让运动玩出新花样</title>
+    <meta name="keywords" content="动么|动么app|运动娱乐|运动社交O2O|运动约伴|运动社群|科学运动计划|一起运动|趣味运动">
+    <meta name="description" content="运动社交APP,为约伴运动而生的应用神器，结交运动达人，发现附近运动伙伴，一起运动，运动不再孤单">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+<!--导航-->
+<div id="header" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="row">
+            <div class="navbar-header"><a href="index.html" class="navbar-brand"></a></div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="activity.html">赛事</a></li>
+                <li><a href="aboutus.html">关于</a></li>
+                <li><a href="history.html">版本</a></li>
+                <li><a href="pictures.html">照片</a></li>
+                <li id="ifLogin" class="dropdown"><a href="login.html">登录</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="aboutus-bg modal-open"></div>
+<!--登录-->
+<div class="container">
+    <div class="row">
+        <div class="login">
+            <div class="form-title text-center"><p>登录</p></div>
+            <form class="modal-open ">
+                <div class="col-xs-12 col-sm-6 col-mg-6 col-lg-6 text-center login-left ">
+                    <div class="row">
+                        <img src="images/wx-link.png" class="img" width="260">
+                        <p>扫描二维码，下载“动么”APP，在手机端使用！</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-mg-6 col-lg-6 login-main">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-mg-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+                            <div class="row">
+                                <div class="form-group modal-open">
+                                    <input type="text" class="form-control" id="tel" name="tel" maxlength="11"
+                                           placeholder="请输入您的手机号码">
+                                </div>
+
+                                <div class="form-group modal-open">
+                                    <div class="col-xs-7">
+                                        <div class="row">
+                                            <input type="text" class="form-control" id="imgcode" name="imgcode"
+                                                   maxlength="4" placeholder="图像验证码">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-4 pull-right">
+                                        <div class="row pull-right">
+                                            <img id="codeImg" alt="点击更换" title="点击更换"
+                                                 src="http://static.idongme.com/apps/uploads/201801/code1516606710163.png"
+                                                 height="34">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group modal-open">
+                                    <div class="col-xs-7">
+                                        <div class="row">
+                                            <input type="text" class="form-control" id="code" name="code" maxlength="11"
+                                                   placeholder="手机验证码">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 pull-right">
+                                        <div class="row">
+                                            <div class="login-btn btn-yellow text-center" id="sendCode">发送验证码</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group modal-open">
+                                    <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="autoLogin" id="autoLogin">记住我
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6"></div>
+                                </div>
+
+                                <div class="form-group modal-open login-error " id="loginErr"></div>
+
+                                <div class="form-group modal-open">
+                                    <div class="col-xs-5 pull-left">
+                                        <div class="row">
+                                            <div class="pull-left login-btn btn-green" id="loginBtn">登录</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="row"></div>
+                                    </div>
+                                    <div class="col-xs-5 pull-right">
+                                        <div class="row">
+                                            <a href="register.html" class="pull-left login-btn btn-gray">注册</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <a class="login-password color-zhu" href="register.html">还没有账号，立即注册？&gt;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!--/登录/-->
+
+<!--页脚-->
+<div class="text-center footer">
+    <div class="footer-logo"><img src="images/logo.png"></div>
+    <p>©2015 上海弘动网络科技有限公司 <span>沪ICP备14039782号</span></p>
+</div>
+
+
+<!--Javascript include  先写静态的，然后改-->
+<script type="text/javascript" src="js/util.js"></script>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/login2016.js"></script>
+<script type="text/javascript">
+    //localStorage.imgcode
+    $(function () {
+        localStorage.removeItem("dm_imgcode");
+        var _codeImg = $("#codeImg");
+        getCode();
+        function getCode() {
+            _codeImg.off("click");
+            $.ajax({
+                url: api.getImgCode + Math.random(),
+                type: 'get',
+                dataType: "json",
+                timeout: 10000,
+                success: function (d) {
+                    if (!d.result) {
+                        _codeImg.on("click", getCode);
+                        alert("当前网络不稳定，获取不到图片验证码");
+                        localStorage.removeItem("dm_imgcode");
+                        return false;
+                    }
+                    _codeImg.attr("src", d.content.imgeurl);
+                    localStorage.setItem("dm_imgcode", d.content.imgcode);
+                    _codeImg.on("click", getCode);
+                    return true;
+                },
+                error: function (xhr) {
+                    localStorage.removeItem("dm_imgcode");
+                    _codeImg.on("click", getCode);
+                    alert("当前网络不稳定，获取不到图片验证码");
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
