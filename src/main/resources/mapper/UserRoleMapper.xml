@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xaut.dao.UserRoleDao">
+    <resultMap id="BaseResultMap" type="com.xaut.entity.UserRole">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_uid" property="userUid" jdbcType="VARCHAR"/>
+        <result column="role_uid" property="roleUid" jdbcType="VARCHAR"/>
+        <result column="deleted" property="deleted" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.xaut.entity.UserRole">
+    insert into user_role (id, user_uid, role_uid, 
+      deleted, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userUid,jdbcType=VARCHAR}, #{roleUid,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xaut.entity.UserRole">
+    update user_role
+    set user_uid = #{userUid,jdbcType=VARCHAR},
+      role_uid = #{roleUid,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select id, user_uid, role_uid, deleted, create_time, update_time
+    from user_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_uid, role_uid, deleted, create_time, update_time
+    from user_role
+  </select>
+</mapper>

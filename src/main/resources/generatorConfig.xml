@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry
+            location="C:\Users\CVTE\.m2\repository\mysql\mysql-connector-java\5.1.29\mysql-connector-java-5.1.29.jar"/>
+    <!--MyBatis3Simple会阻止生成example-->
+    <context id="context1" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!--过滤表的那些备注-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--连接数据库-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/school_booking_ball?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="123456"/>
+
+        <!-- targetProject:生成PO类的位置 -->
+        <javaModelGenerator targetPackage="com.xaut.entity"
+                            targetProject="./src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- targetProject:mapper映射文件生成的位置 -->
+        <sqlMapGenerator
+                targetPackage="main.resources.mapper"
+                targetProject="./src/">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.xaut.dao"
+                             targetProject="./src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table schema="USER_GAME_DEMO" tableName="user_game"/>
+        <table schema="USER_GROUP_DEMO" tableName="user_group"/>
+        <table schema="USER_LABEL_demo" tableName="user_label"/>
+        <table schema="USER_RECORD_DEMO" tableName="user_record"/>
+        <!--<table schema="GAME_DEMO" tableName="game_info"/>-->
+        <!--<table schema="GROUP_DEMO" tableName="group_info"/>-->
+        <!--<table schema="LABEL_DEMO" tableName="label_info"/>-->
+        <!--<table schema="RECORD_DEMO" tableName="record_info"/>-->
+        <!--<table schema="ROLE_DEMO" tableName="role_info"/>-->
+        <!--<table schema="USER_ROLE_DEMO" tableName="user_role"/>-->
+        <!--<table schema="SALE_DEMO" tableName="user_info"/>-->
+    </context>
+</generatorConfiguration>

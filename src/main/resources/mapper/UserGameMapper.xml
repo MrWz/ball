@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xaut.dao.UserGameDao">
+    <resultMap id="BaseResultMap" type="com.xaut.entity.UserGame">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_uid" property="userUid" jdbcType="VARCHAR"/>
+        <result column="game_uid" property="gameUid" jdbcType="VARCHAR"/>
+        <result column="deleted" property="deleted" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_game
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.xaut.entity.UserGame">
+    insert into user_game (id, user_uid, game_uid, 
+      deleted, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userUid,jdbcType=VARCHAR}, #{gameUid,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xaut.entity.UserGame">
+    update user_game
+    set user_uid = #{userUid,jdbcType=VARCHAR},
+      game_uid = #{gameUid,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select id, user_uid, game_uid, deleted, create_time, update_time
+    from user_game
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_uid, game_uid, deleted, create_time, update_time
+    from user_game
+  </select>
+</mapper>
