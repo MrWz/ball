@@ -22,4 +22,12 @@ public class UserRole {
     private Date createTime;
 
     private Date updateTime;
+
+    public UserRole(String userUid,String roleUid,Boolean deleted,Date creteTime,Date updateTime){
+        this.userUid = userUid;
+        this.roleUid = roleUid;
+        this.deleted = deleted;
+        this.createTime = creteTime;
+        this.updateTime = updateTime;
+    }
 }

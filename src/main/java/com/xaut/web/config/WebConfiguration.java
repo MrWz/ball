@@ -28,18 +28,18 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public WebRequestInterceptor webRequestInterceptor(){return new WebRequestInterceptor();}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor()).addPathPatterns("/*/**").
-                excludePathPatterns("/user/v1/login");
-        registry.addInterceptor(webRequestInterceptor()).addPathPatterns("/*/**");
-        super.addInterceptors(registry);
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/internal/**").addResourceLocations("classPath:/");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(tokenInterceptor()).addPathPatterns("/*/**").
+//                excludePathPatterns("/user/v1/login");
+//        registry.addInterceptor(webRequestInterceptor()).addPathPatterns("/*/**");
+//        super.addInterceptors(registry);
+//    }
+//
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/internal/**").addResourceLocations("classPath:/");
+//    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

@@ -6,6 +6,7 @@
         <result column="uid" property="uid" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="picture" property="picture" jdbcType="VARCHAR"/>
         <result column="deleted" property="deleted" jdbcType="BIT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
@@ -16,10 +17,10 @@
   </delete>
     <insert id="insert" parameterType="com.xaut.entity.UserInfo">
     insert into user_info (id, uid, name, 
-      password, deleted, create_time, 
+      password, picture, deleted, create_time,
       update_time)
     values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{password,jdbcType=VARCHAR},#{picture,jdbcType=VARCHAR}, #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.xaut.entity.UserInfo">
@@ -41,4 +42,9 @@
     select id, uid, name, password, deleted, create_time, update_time
     from user_info
   </select>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select id, uid, name, password, picture, deleted, create_time, update_time
+        from user_info
+        where name = #{name,jdbcType=VARCHAR}
+    </select>
 </mapper>

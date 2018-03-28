@@ -3,13 +3,13 @@ package com.xaut.service;
 
 import com.xaut.dto.UserInfoDto;
 import com.xaut.entity.UserInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 /**
- * Author ： Martin
- * Date : 17/9/26
- * Description : 授权服务接口
+ * Author ： wangzhe
+ * Description : 用户服务接口
  * Version : 0.1
  */
 public interface UserService {
@@ -19,5 +19,7 @@ public interface UserService {
      */
     UserInfoDto authForUser(String token, String systemCode);
 
-    List<UserInfo> getAllUser();
+    Boolean checkLogin(String username,String password);
+
+    Boolean checkRegister(String username,String password ,MultipartFile file);
 }

@@ -39,4 +39,9 @@
     select id, user_uid, role_uid, deleted, create_time, update_time
     from user_role
   </select>
+    <select id="selectByUserUid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select id, user_uid, role_uid, deleted, create_time, update_time
+        from user_role
+        where user_uid = #{userUid}
+    </select>
 </mapper>

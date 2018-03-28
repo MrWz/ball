@@ -16,4 +16,6 @@ public interface UserRoleDao {
     List<UserRole> selectAll();
 
     int updateByPrimaryKey(UserRole record);
+
+    UserRole selectByUserUid(String userUid);
 }

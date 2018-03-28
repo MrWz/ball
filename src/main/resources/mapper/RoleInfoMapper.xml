@@ -30,13 +30,18 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select id, uid, description, deleted, create_time, update_time
     from role_info
-    where id = #{id,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=VARCHAR}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select id, uid, description, deleted, create_time, update_time
     from role_info
   </select>
+    <select id="selectByDescription" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select id, uid, description, deleted, create_time, update_time
+        from role_info
+        where description = #{description,jdbcType=VARCHAR}
+    </select>
 </mapper>

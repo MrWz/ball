@@ -16,4 +16,7 @@ public interface UserInfoDao {
     List<UserInfo> selectAll();
 
     int updateByPrimaryKey(UserInfo record);
+
+    UserInfo selectByName(String name);
+
 }

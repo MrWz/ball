@@ -16,7 +16,6 @@ public class TokenManager {
     public TokenModel createToken(String name,String pwd){
         TokenModel tokenModel=new TokenModel(name,pwd);
         catchToken=tokenModel.toString();
-        System.out.println(catchToken);
         return tokenModel;
     }
     public Boolean checkToken(String token){

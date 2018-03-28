@@ -11,9 +11,11 @@ public interface RoleInfoDao {
 
     int insert(RoleInfo record);
 
-    RoleInfo selectByPrimaryKey(Integer id);
+    RoleInfo selectByPrimaryKey(String uid);
 
     List<RoleInfo> selectAll();
 
     int updateByPrimaryKey(RoleInfo record);
+
+    RoleInfo selectByDescription(String description);
 }
