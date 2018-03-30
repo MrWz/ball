@@ -8,6 +8,7 @@ import com.xaut.entity.UserInfo;
 import com.xaut.manager.TokenManager;
 import com.xaut.service.UserService;
 import com.xaut.util.ResultBuilder;
+import com.xaut.web.annotation.Authorization;
 import com.xaut.web.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class UserController {
     private UserInfoDao userInfoDao;
 
     @Autowired
-    TokenManager tokenManager;
+    private TokenManager tokenManager;
 
     /**
      * 用户注册
@@ -74,7 +75,20 @@ public class UserController {
         return ResultBuilder.create().code(500).message("用户名或者密码错误").build();
     }
 
-
+    /**
+     * 用户退出登录
+     *
+     * @param user 注入的当前用户信息
+     * @return 响应实体 {@link Object}
+     */
+    @ResponseBody
+    @RequestMapping(value="/login", method=RequestMethod.DELETE)
+    @Authorization
+    public Object loginOff(@CurrentUser UserInfo user) {
+        System.out.println("loginoff");
+        tokenManager.deleteToken(user.getUid());
+        return ResultBuilder.create().code(200).message("注销成功").build();
+    }
 
     @RequestMapping("/buy")
     public String buy(@CurrentUser UserInfoDto a){

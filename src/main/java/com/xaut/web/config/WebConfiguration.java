@@ -1,5 +1,6 @@
 package com.xaut.web.config;
 
+import com.xaut.web.interceptor.AuthorizationInterceptor;
 import com.xaut.web.interceptor.TokenInterceptor;
 import com.xaut.web.interceptor.WebRequestInterceptor;
 import com.xaut.web.resolver.CurrentUserResolver;
@@ -27,6 +28,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     }
     @Bean
     public WebRequestInterceptor webRequestInterceptor(){return new WebRequestInterceptor();}
+    @Bean
+    public AuthorizationInterceptor authorizationInterceptor(){return new AuthorizationInterceptor();}
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
@@ -35,7 +38,12 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 //        registry.addInterceptor(webRequestInterceptor()).addPathPatterns("/*/**");
 //        super.addInterceptors(registry);
 //    }
-//
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authorizationInterceptor()).addPathPatterns("/*/**");
+        super.addInterceptors(registry);
+    }
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/internal/**").addResourceLocations("classPath:/");

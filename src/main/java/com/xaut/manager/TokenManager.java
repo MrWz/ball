@@ -25,4 +25,22 @@ public class TokenManager {
             return false;
         }
     }
+
+    public TokenModel getToken(String authentication) {
+        if (authentication == null || authentication.length() == 0) {
+            return null;
+        }
+        String[] param=authentication.split("_");
+        if (param.length != 2) {
+            return null;
+        }
+        // 使用 userId 和源 token 简单拼接成的 token，可以增加加密措施
+        String userId=param[0];
+        String token=param[1];
+        return new TokenModel(userId, token);
+    }
+
+    public void deleteToken(String token){
+        catchToken = "default_token";
+    }
 }

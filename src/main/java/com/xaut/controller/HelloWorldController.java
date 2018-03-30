@@ -3,6 +3,7 @@ package com.xaut.controller;
 import com.xaut.entity.UserInfo;
 import com.xaut.service.UserService;
 import com.xaut.util.RedisLockUtil;
+import com.xaut.web.annotation.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,5 +51,12 @@ public class HelloWorldController {
         } else {
             return "上传失败，因为文件是空的.";
         }
+    }
+
+    @RequestMapping(value = "/aspect")
+    @Authorization
+    public void aspect(){
+        System.out.println("qwe");
+        System.out.println("sa");
     }
 }

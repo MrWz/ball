@@ -37,6 +37,8 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        String tokens = webRequest.getHeader(HeaderConstant.X_AUTH_TOKEN);
+        String nsmr = webRequest.getHeader("username");
         String token = StringUtils.trimToEmpty(webRequest.getHeader(HeaderConstant.X_AUTH_TOKEN));
         if (StringUtils.isBlank(token)) {
             throw new WebAppException(ErrorsEnum.REQUEST_UNAUTHORIZED);
