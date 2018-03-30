@@ -1,5 +1,6 @@
 package com.xaut.web.aspect;
 
+import com.xaut.dto.TokenModel;
 import com.xaut.entity.UserInfo;
 import com.xaut.manager.TokenManager;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,10 @@ public class BusinessHandlerAspect {
         }
 
         Object[] args = joinPoint.getArgs();
-        Boolean isOnline = tokenManager.checkToken(((UserInfo)args[0]).getName()+"_"+((UserInfo)args[0]).getPassword());
+        /**
+         * todo
+         */
+        Boolean isOnline = tokenManager.checkToken(new TokenModel());
         System.out.println(((UserInfo)args[0]).getName());
 
         if(isOnline){

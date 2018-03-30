@@ -3,6 +3,7 @@ package com.xaut.web.interceptor;
 import com.xaut.constant.Constant;
 import com.xaut.constant.HeaderConstant;
 import com.xaut.constant.SystemConstant;
+import com.xaut.dto.TokenModel;
 import com.xaut.dto.UserInfoDto;
 import com.xaut.manager.TokenManager;
 import com.xaut.service.UserService;
@@ -42,7 +43,10 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             log.info("用户鉴权失败,token为空");
             return false;
         }
-        if (!tokenManager.checkToken(token)) {
+        /**
+         * todo
+         */
+        if (!tokenManager.checkToken(new TokenModel())) {
             log.info("token错误");
             return false;
         }

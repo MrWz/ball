@@ -42,7 +42,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         // 验证 token
-        if (tokenManager.checkToken(model.toString())) {
+        if (tokenManager.checkToken(model)) {
             // 如果 token 验证成功，将 token 对应的用户 id 存在 request 中，便于之后注入
             request.setAttribute(Constant.CURRENT_USER_ID, model.getUserId());
             return true;

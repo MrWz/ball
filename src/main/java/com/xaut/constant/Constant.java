@@ -13,6 +13,8 @@ public class Constant {
     public static final String CURRENT_USER = "currentUser";
     public static final String CURRENT_USER_ID = "currentUserID";
     public static final String RESPONSE_AUTH_MSG = "[Please Login in first]请先登录";
+    public static final int TOKEN_EXPIRES_HOUR = 1800;
+
     public static final String START = "start";
     public static final String END = "end";
 }

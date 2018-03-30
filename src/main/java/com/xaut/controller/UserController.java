@@ -50,7 +50,7 @@ public class UserController {
         if (flag) {
             UserInfo user=userInfoDao.selectByName(username);
             // 生成一个 token，保存用户登录状态
-            TokenModel model=tokenManager.createToken(username,user.getUid());
+            TokenModel model=tokenManager.createToken(user.getUid());
             response.setHeader(HeaderConstant.X_AUTH_TOKEN, model.toString());
             response.setHeader("username", user.getName());
             /**
@@ -67,7 +67,7 @@ public class UserController {
         if (flag) {
             UserInfo user=userInfoDao.selectByName(username);
             // 生成一个 token，保存用户登录状态
-            TokenModel model=tokenManager.createToken(username,user.getUid());
+            TokenModel model=tokenManager.createToken(user.getUid());
             response.setHeader(HeaderConstant.X_AUTH_TOKEN, model.toString());
             response.setHeader("username", user.getName());
             return ResultBuilder.create().code(200).message("请去首页进行选购").data("userinfo",user).build();
