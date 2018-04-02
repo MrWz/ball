@@ -22,4 +22,5 @@ public interface UserService {
     Boolean checkLogin(String username,String password);
 
     Boolean checkRegister(String username,String password ,MultipartFile file);
+
 }

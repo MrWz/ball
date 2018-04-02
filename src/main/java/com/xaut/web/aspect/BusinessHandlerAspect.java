@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * Version :
  */
 @Slf4j
-@Aspect
+//@Aspect
 @Component
 public class BusinessHandlerAspect {
 

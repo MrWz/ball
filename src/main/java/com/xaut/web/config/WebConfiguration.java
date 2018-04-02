@@ -30,6 +30,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     public WebRequestInterceptor webRequestInterceptor(){return new WebRequestInterceptor();}
     @Bean
     public AuthorizationInterceptor authorizationInterceptor(){return new AuthorizationInterceptor();}
+    @Bean
+    public CurrentUserResolver currentUserResolver(){return new CurrentUserResolver();}
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
@@ -52,6 +54,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         super.addArgumentResolvers(argumentResolvers);
-        argumentResolvers.add(new CurrentUserResolver());
+        argumentResolvers.add(currentUserResolver());
     }
 }

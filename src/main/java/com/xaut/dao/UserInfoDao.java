@@ -19,4 +19,6 @@ public interface UserInfoDao {
 
     UserInfo selectByName(String name);
 
+    UserInfo selectByUid(String uid);
+
 }

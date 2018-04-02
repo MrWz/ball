@@ -34,17 +34,22 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select id, uid, name, password, deleted, create_time, update_time
+    select id, uid, name, password, picture, deleted, create_time, update_time
     from user_info
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, uid, name, password, deleted, create_time, update_time
+    select id, uid, name, password, picture, deleted, create_time, update_time
     from user_info
   </select>
     <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select id, uid, name, password, picture, deleted, create_time, update_time
         from user_info
         where name = #{name,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, uid, name, password, picture, deleted, create_time, update_time
+        from user_info
+        where uid = #{uid,jdbcType=VARCHAR}
     </select>
 </mapper>

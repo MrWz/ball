@@ -6,13 +6,16 @@ import com.xaut.dto.TokenModel;
 import com.xaut.manager.TokenManager;
 import com.xaut.util.ResponseUtil;
 import com.xaut.web.annotation.Authorization;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 
 /**
@@ -24,23 +27,31 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     private TokenManager tokenManager;
 
     public boolean preHandle(HttpServletRequest request,
-                             HttpServletResponse response, Object handler) {
+                             HttpServletResponse response, Object handler) throws UnsupportedEncodingException {
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-        // 从 header 中得到 token
-        String authentication = request.getHeader((HeaderConstant.X_AUTH_TOKEN));
+        // 从 header的cookie中得到 token
+        String authentication =null;
 
+//        String authentication = request.getHeader((HeaderConstant.X_AUTH_TOKEN));//todo
+
+        request.setCharacterEncoding("utf-8");
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if(StringUtils.equals(HeaderConstant.X_AUTH_TOKEN,c.getName())){
+                    authentication = c.getValue();
+                }
+            }
+        }
         TokenModel model = tokenManager.getToken(authentication);
         /**
          * todo
          */
-        if(model == null){
-            return true;
-        }
         // 验证 token
         if (tokenManager.checkToken(model)) {
             // 如果 token 验证成功，将 token 对应的用户 id 存在 request 中，便于之后注入
