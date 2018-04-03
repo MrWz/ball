@@ -5,7 +5,7 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="uid" property="uid" jdbcType="VARCHAR"/>
         <result column="user_uid" property="userUid" jdbcType="VARCHAR"/>
-        <result column="type_uid" property="typeUid" jdbcType="VARCHAR"/>
+        <result column="type_uid" property="type" jdbcType="VARCHAR"/>
         <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
         <result column="place" property="place" jdbcType="VARCHAR"/>
         <result column="people_num" property="peopleNum" jdbcType="INTEGER"/>
@@ -20,11 +20,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.xaut.entity.GameInfo">
-    insert into game_info (id, uid, user_uid, type_uid, start_time
+    insert into game_info (id, uid, user_uid, type, start_time,
       place, people_num, description, release_time,
       deleted, create_time,
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userUid,jdbcType=VARCHAR}, #{typeUid,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userUid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
      #{startTime,jdbcType=TIMESTAMP},   #{place,jdbcType=VARCHAR}, #{peopleNum,jdbcType=INTEGER},
      #{description,jdbcType=VARCHAR},  #{releaseTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
@@ -33,7 +33,7 @@
     update game_info
     set uid = #{uid,jdbcType=VARCHAR},
       user_uid = #{userUid,jdbcType=VARCHAR},
-      type_uid = #{typeUid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       place = #{place,jdbcType=VARCHAR},
       people_num = #{peopleNum,jdbcType=INTEGER},
@@ -45,7 +45,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select game_info (id, uid, user_uid, type_uid, start_time
+    select id, uid, user_uid, type, start_time,
       place, people_num, description, release_time,
       deleted, create_time,
       update_time
@@ -53,7 +53,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    selectgame_info (id, uid, user_uid, type_uid, start_time
+    select id, uid, user_uid, type, start_time,
       place, people_num, description, release_time,
       deleted, create_time,
       update_time

@@ -9,7 +9,7 @@ import java.util.List;
 public interface GameInfoDao {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(GameInfo record);
+    boolean insert(GameInfo record);
 
     GameInfo selectByPrimaryKey(Integer id);
 

@@ -36,7 +36,7 @@ import static com.xaut.util.RoleUtil.ROLE_2;
  * Description : 用户接口服务
  * Version : 0.1
  */
-@Service
+@Service(value = "UserService")
 @Slf4j
 public class UserServiceImpl implements UserService {
 

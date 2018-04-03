@@ -16,7 +16,7 @@ public class GameInfo {
 
     private String userUid;
 
-    private String typeUid;
+    private String type;
 
     private Date startTime;
 

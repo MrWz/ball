@@ -102,8 +102,9 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.DELETE)
     @Authorization
-    public Object loginOff(@CurrentUser UserInfo user) {
+    public Object loginOff(HttpServletResponse response, @CurrentUser UserInfo user) {
         System.out.println("loginoff");
+        // 有效期,秒为单位
         tokenManager.deleteToken(user.getUid());
         return ResultBuilder.create().code(200).message("注销成功").build();
     }

@@ -3,6 +3,7 @@ package com.xaut.service;
 
 import com.xaut.dto.UserInfoDto;
 import com.xaut.entity.UserInfo;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
