@@ -25,8 +25,8 @@ public final class ErrorMessage {
     }
 
     public ErrorMessage(Exception e) {
-        if (e instanceof WebAppException) {
-          this.code = ((WebAppException) e).getErrorCode();
+        if (e instanceof BusinessException) {
+          this.code = ((BusinessException) e).getCode();
           this.message = e.getMessage();
         } else if (e instanceof SQLException) {
             this.code = ErrorsEnum.SQL_ERROR.getCode();

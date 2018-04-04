@@ -28,13 +28,32 @@ public enum ErrorsEnum {
     SQL_ERROR(70001, "数据库操作失败"),
     REQUEST_PARAMS_NOT_VALID(40000, "Request Params Illegal"),//请求参数非法
     TOKEN_AUTHENTICATION_FAILED(41000, "Token Authentication Failed"),//验证失败且需要重定向到登录页面
-    IP_AUTHENTICATION_FAILED(41001, "Ip Authentication Failed"),//ip白名单认证失败
-    SIGN_AUTHENTICATION_FAILED(41002, "Sign Authentication Failed"),//签名认证失败
     REQUEST_UNAUTHORIZED(41003, "Request Unauthorized"), //请求未授权
     INTERNAL_SERVER_ERROR(50000, "Server Internal Error"),//服务T器内部错误
-
     RESOURCE_NOT_EXIT(42000,"The Resource NOT Exit"),
-    RESOURCE_IS_EXIT(42002,"The Resource Is Exit");
+    RESOURCE_IS_EXIT(42002,"The Resource Is Exit"),
+
+    //应该添加具体的业务异常
+    EX_10000(10000, "业务异常"),
+    EX_10001(10001, "参数异常"),
+    EX_10002(10002, "Unknown异常"),
+
+
+    EX_20007(20007, "请求头信息丢失"),
+
+    EX_20008(20008, "用户名非法"),
+    EX_20009(20009, "密码非法"),
+    EX_20010(20010, "数量只能为数字"),
+
+    EX_20011(20011, "您的比赛类型与场地类型不否"),
+    EX_20012(20012, "该时间段场地已经被占用"),
+
+    /**
+     * 管理员异常
+     */
+    EX_30001(30001, "权限异常");//管理员帐号不能从普通用户登录界面登录
+
+
 
     private int    code;
     private String message;

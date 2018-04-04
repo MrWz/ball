@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ErrorMessage errorHandler(Exception ex) {
+
         ErrorMessage errorMessage = new ErrorMessage(ex);
         LOGGER.catching(ex);
         return errorMessage;

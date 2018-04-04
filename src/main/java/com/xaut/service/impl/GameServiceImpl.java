@@ -6,7 +6,7 @@ import com.xaut.entity.GameInfo;
 import com.xaut.entity.SportPlace;
 import com.xaut.entity.UserInfo;
 import com.xaut.exception.BusinessException;
-import com.xaut.exception.ExceptionCode;
+import com.xaut.exception.ErrorsEnum;
 import com.xaut.service.GameService;
 import com.xaut.util.RedisCountHotBookUtil;
 import com.xaut.util.UIDUtil;
@@ -47,7 +47,7 @@ public class GameServiceImpl implements GameService {
         SportPlace sportPlace = sportPlaceDao.selectByPrimaryKey(id);
         String type = sportPlace.getType();
         if (!type.equals(gameInfo.getType())) {
-            throw new BusinessException(ExceptionCode.EX_20011.getCode(), ExceptionCode.EX_20011.getMessage());
+            throw new BusinessException(ErrorsEnum.EX_20011.getCode(), ErrorsEnum.EX_20011.getMessage());
         }
         Date sportPlaceEndTime = sportPlace.getEndTime();
         Date sportPlaceStartTime = sportPlace.getStartTime();
@@ -55,7 +55,7 @@ public class GameServiceImpl implements GameService {
         Date gameInfoEndTime = gameInfo.getEndTime();
         if ((sportPlaceStartTime != null && sportPlaceEndTime != null)
                 && (gameInfoStartTime.before(sportPlaceEndTime) || gameInfoEndTime.after(sportPlaceStartTime))) {
-            throw new BusinessException(ExceptionCode.EX_20012.getCode(), ExceptionCode.EX_20012.getMessage());
+            throw new BusinessException(ErrorsEnum.EX_20012.getCode(), ErrorsEnum.EX_20012.getMessage());
         }
         /**
          * 预定场地，记得归还哦

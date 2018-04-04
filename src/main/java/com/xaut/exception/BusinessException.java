@@ -7,29 +7,15 @@ public class BusinessException extends RuntimeException {
 
     private int code;
 
-    public BusinessException() {
-        super();
-    }
+    public BusinessException() {}
 
-    public BusinessException(String message) {
-        super(message);
+    public BusinessException(ErrorsEnum resultEnum) {
+        super(resultEnum.getMessage());
+        this.code = resultEnum.getCode();
     }
 
     public BusinessException(int code, String message) {
         super(message);
-        this.code = code;
-    }
-
-    public BusinessException(Throwable cause) {
-        super(cause);
-    }
-
-    public BusinessException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public BusinessException(int code, String message, Throwable cause) {
-        super(message, cause);
         this.code = code;
     }
 

@@ -8,8 +8,7 @@ import com.xaut.entity.RoleInfo;
 import com.xaut.entity.UserInfo;
 import com.xaut.entity.UserRole;
 import com.xaut.exception.BusinessException;
-import com.xaut.exception.ExceptionCode;
-import com.xaut.exception.ParameterException;
+import com.xaut.exception.ErrorsEnum;
 import com.xaut.service.UserService;
 import com.xaut.util.Md5SaltUtil;
 import com.xaut.util.RedisCountHotBookUtil;
@@ -22,12 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.xaut.exception.ExceptionCode.EX_10001;
-import static com.xaut.exception.ExceptionCode.EX_20008;
-import static com.xaut.exception.ExceptionCode.EX_20009;
 import static com.xaut.util.RoleUtil.ROLE_1;
 import static com.xaut.util.RoleUtil.ROLE_2;
 
@@ -64,16 +59,16 @@ public class UserServiceImpl implements UserService {
     public Boolean checkRegister(String username, String password, MultipartFile file) {
         Boolean flag = StringUtils.isAnyBlank(username, password);
         if (flag) {
-            throw new ParameterException(EX_10001.getMessage());
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(),ErrorsEnum.EX_10001.getMessage());
         }
         Pattern pattern = Pattern.compile("[0-9a-zA-Z]*");
         boolean boolName = pattern.matcher(username).matches();
         if (username.length() < 6 || username.length() > 15 || !boolName) {
-            throw new ParameterException(EX_20008.getMessage());
+            throw new BusinessException(ErrorsEnum.EX_20008.getCode(),ErrorsEnum.EX_20008.getMessage());
         }
         boolean boolPwd = pattern.matcher(password).matches();
         if (password.length() < 6 || password.length() > 15 || !boolPwd) {
-            throw new ParameterException(EX_20009.getMessage());
+            throw new BusinessException(ErrorsEnum.EX_20009.getCode(),ErrorsEnum.EX_20009.getMessage());
         }
 
         RoleInfo role;
@@ -102,10 +97,11 @@ public class UserServiceImpl implements UserService {
                 return true;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                throw new ParameterException(EX_20009.getMessage());
+                throw new BusinessException(ErrorsEnum.EX_20009.getCode(),ErrorsEnum.EX_20009.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new ParameterException(EX_20009.getMessage());
+                throw new BusinessException(ErrorsEnum.EX_20009.getCode(),ErrorsEnum.EX_20009.getMessage());
+
             }
         } else {//用户已存在
             return false;
@@ -124,7 +120,7 @@ public class UserServiceImpl implements UserService {
     public Boolean checkLogin(String username, String password) {
         Boolean flag = StringUtils.isAnyBlank(username, password);
         if (flag) {
-            throw new ParameterException(EX_10001.getMessage());
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(),ErrorsEnum.EX_10001.getMessage());
         }
 
         UserInfo user = (UserInfo) redisCountHotBookUtil.getInRedis(username, UserInfo.class);
@@ -144,7 +140,7 @@ public class UserServiceImpl implements UserService {
             UserRole userRole = userRoleDao.selectByUserUid(uid);
             RoleInfo role = roleDao.selectByPrimaryKey(userRole.getRoleUid());
             if (role.getDescription().equals(ROLE_1.getRole())) {//权限不对，抛出异常
-                throw new BusinessException(ExceptionCode.EX_30001.getCode(), ExceptionCode.EX_30001.getMessage());
+                throw new BusinessException(ErrorsEnum.EX_30001.getCode(), ErrorsEnum.EX_30001.getMessage());
             }
             /**
              * 验证密码正确性
