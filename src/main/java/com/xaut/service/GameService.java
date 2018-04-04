@@ -14,6 +14,6 @@ public interface GameService {
 
     List<GameInfo> selectAll();
 
-    boolean save(UserInfo userInfo,GameInfo gameInfo);
+    boolean save(UserInfo userInfo,GameInfo gameInfo,int id);
 
 }

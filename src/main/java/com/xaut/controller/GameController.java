@@ -6,12 +6,12 @@ import com.xaut.entity.GameInfo;
 import com.xaut.entity.UserInfo;
 import com.xaut.service.GameService;
 import com.xaut.util.ResultBuilder;
-import com.xaut.web.annotation.Authorization;
-import com.xaut.web.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -50,16 +50,16 @@ public class GameController {
      * @param gameInfo 比赛对象
      * @return 响应实体 {@link Object}
      */
-    @Authorization
+//    @Authorization
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object release(@CurrentUser UserInfo userInfo, GameInfo gameInfo) {
+    public Object release(GameInfo gameInfo, @RequestParam(value = "placeId") int id) {
 
-        if (gameService.save(userInfo,gameInfo)) {
+        UserInfo userInfo = new UserInfo();
+        if (gameService.save(userInfo, gameInfo, id)) {
             return ResultBuilder.create().code(200).message("比赛发布成功").build();
         }
         return ResultBuilder.create().code(500).message("比赛发布失败，请重新发布").build();
     }
-
 
 
 }
