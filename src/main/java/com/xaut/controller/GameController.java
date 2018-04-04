@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * Author : wangzhe
- * Date : on 2018/01/25
  * Description :
  * Version :
  */
@@ -60,5 +59,7 @@ public class GameController {
         }
         return ResultBuilder.create().code(500).message("比赛发布失败，请重新发布").build();
     }
+
+
 
 }

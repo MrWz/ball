@@ -5,7 +5,7 @@
 <generatorConfiguration>
 
     <classPathEntry
-            location="C:\Users\CVTE\.m2\repository\mysql\mysql-connector-java\5.1.29\mysql-connector-java-5.1.29.jar"/>
+            location="C:\Users\user\.m2\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar"/>
     <!--MyBatis3Simple会阻止生成example-->
     <context id="context1" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <!--过滤表的那些备注-->
@@ -43,10 +43,12 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table schema="USER_GAME_DEMO" tableName="user_game"/>
-        <table schema="USER_GROUP_DEMO" tableName="user_group"/>
-        <table schema="USER_LABEL_demo" tableName="user_label"/>
-        <table schema="USER_RECORD_DEMO" tableName="user_record"/>
+        <!--<table schema="TYPE_INFO_DEMO" tableName="type_info"/>-->
+        <table schema="SPORT_PLACE_DEMO" tableName="sport_place"/>
+        <!--<table schema="USER_GAME_DEMO" tableName="user_game"/>-->
+        <!--<table schema="USER_GROUP_DEMO" tableName="user_group"/>-->
+        <!--<table schema="USER_LABEL_demo" tableName="user_label"/>-->
+        <!--<table schema="USER_RECORD_DEMO" tableName="user_record"/>-->
         <!--<table schema="GAME_DEMO" tableName="game_info"/>-->
         <!--<table schema="GROUP_DEMO" tableName="group_info"/>-->
         <!--<table schema="LABEL_DEMO" tableName="label_info"/>-->

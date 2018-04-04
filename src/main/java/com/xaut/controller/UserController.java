@@ -1,9 +1,13 @@
 package com.xaut.controller;
 
 import com.xaut.constant.HeaderConstant;
+import com.xaut.dao.SportPlaceDao;
+import com.xaut.dao.TypeInfoDao;
 import com.xaut.dao.UserInfoDao;
 import com.xaut.dto.TokenModel;
 import com.xaut.dto.UserInfoDto;
+import com.xaut.entity.SportPlace;
+import com.xaut.entity.TypeInfo;
 import com.xaut.entity.UserInfo;
 import com.xaut.manager.TokenManager;
 import com.xaut.service.UserService;
@@ -16,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Author : wangzhe
@@ -32,6 +37,12 @@ public class UserController {
 
     @Autowired
     private UserInfoDao userInfoDao;
+
+    @Autowired
+    private TypeInfoDao typeInfoDao;
+
+    @Autowired
+    private SportPlaceDao sportPlaceDao;
 
     @Autowired
     private TokenManager tokenManager;
@@ -107,6 +118,19 @@ public class UserController {
         // 有效期,秒为单位
         tokenManager.deleteToken(user.getUid());
         return ResultBuilder.create().code(200).message("注销成功").build();
+    }
+
+
+    @RequestMapping(value = "/typeList", method = RequestMethod.GET)
+    public Object typeList() {
+        List<TypeInfo> typeList= typeInfoDao.selectAll();
+        return ResultBuilder.create().code(200).data("typeList",typeList).build();
+    }
+
+    @RequestMapping(value = "/placeList", method = RequestMethod.GET)
+    public Object placeList() {
+        List<SportPlace> sportPlaceList= sportPlaceDao.selectAll();
+        return ResultBuilder.create().code(200).data("typeInfoList",sportPlaceList).build();
     }
 
     @RequestMapping("/buy")
