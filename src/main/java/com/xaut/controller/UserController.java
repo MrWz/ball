@@ -6,10 +6,12 @@ import com.xaut.dao.TypeInfoDao;
 import com.xaut.dao.UserInfoDao;
 import com.xaut.dto.TokenModel;
 import com.xaut.dto.UserInfoDto;
+import com.xaut.entity.GameInfo;
 import com.xaut.entity.SportPlace;
 import com.xaut.entity.TypeInfo;
 import com.xaut.entity.UserInfo;
 import com.xaut.manager.TokenManager;
+import com.xaut.service.GameService;
 import com.xaut.service.UserService;
 import com.xaut.util.ResultBuilder;
 import com.xaut.web.annotation.Authorization;
@@ -46,6 +48,10 @@ public class UserController {
 
     @Autowired
     private TokenManager tokenManager;
+
+    @Autowired
+    private GameService gameService;
+
 
     /**
      * 用户注册
@@ -88,7 +94,7 @@ public class UserController {
 
             // 生成一个 token，保存用户登录状态
             TokenModel model = tokenManager.createToken(user.getUid());
-            Cookie cookie = new Cookie(HeaderConstant.X_AUTH_TOKEN,  model.toString());
+            Cookie cookie = new Cookie(HeaderConstant.X_AUTH_TOKEN, model.toString());
             // 有效期,秒为单位
             cookie.setMaxAge(3600);
             response.addCookie(cookie);
@@ -123,15 +129,33 @@ public class UserController {
 
     @RequestMapping(value = "/typeList", method = RequestMethod.GET)
     public Object typeList() {
-        List<TypeInfo> typeList= typeInfoDao.selectAll();
-        return ResultBuilder.create().code(200).data("typeList",typeList).build();
+        List<TypeInfo> typeList = typeInfoDao.selectAll();
+        return ResultBuilder.create().code(200).data("typeList", typeList).build();
     }
 
     @RequestMapping(value = "/placeList", method = RequestMethod.GET)
     public Object placeList() {
-        List<SportPlace> sportPlaceList= sportPlaceDao.selectAll();
-        return ResultBuilder.create().code(200).data("typeInfoList",sportPlaceList).build();
+        List<SportPlace> sportPlaceList = sportPlaceDao.selectAll();
+        return ResultBuilder.create().code(200).data("typeInfoList", sportPlaceList).build();
     }
+
+    /**
+     * 用户发布比赛
+     *
+     * @param gameInfo 比赛对象
+     * @return 响应实体 {@link Object}
+     */
+    @Authorization
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public Object release(@CurrentUser UserInfo user, GameInfo gameInfo, @RequestParam(value = "placeId") int id) {
+
+        UserInfo userInfo = new UserInfo();
+        if (gameService.save(userInfo, gameInfo, id)) {
+            return ResultBuilder.create().code(200).message("比赛发布成功").build();
+        }
+        return ResultBuilder.create().code(500).message("比赛发布失败，请重新发布").build();
+    }
+
 
     @RequestMapping("/buy")
     public String buy(@CurrentUser UserInfoDto a) {
