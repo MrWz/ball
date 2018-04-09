@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xaut.dao.AnswerInfoDao" >
+  <resultMap id="BaseResultMap" type="com.xaut.entity.AnswerInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="post_id" property="postId" jdbcType="INTEGER" />
+    <result column="user_uid" property="userUid" jdbcType="VARCHAR" />
+    <result column="hand_num" property="handNum" jdbcType="INTEGER" />
+    <result column="foot_num" property="footNum" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="answer_context" property="answerContext" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from answer_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xaut.entity.AnswerInfo" >
+    insert into answer_info (id, post_id, user_uid, 
+      hand_num, foot_num, deleted, 
+      create_time, update_time, answer_context
+      )
+    values (#{id,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{userUid,jdbcType=VARCHAR},
+      #{handNum,jdbcType=INTEGER}, #{footNum,jdbcType=INTEGER}, #{deleted,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{answerContext,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xaut.entity.AnswerInfo" >
+    update answer_info
+    set post_id = #{postId,jdbcType=INTEGER},
+      user_uid = #{userUid,jdbcType=VARCHAR},
+      hand_num = #{handNum,jdbcType=INTEGER},
+      foot_num = #{footNum,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      answer_context = #{answerContext,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, post_id, user_uid, hand_num, foot_num, deleted, create_time, update_time, 
+    answer_context
+    from answer_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, post_id, user_uid, hand_num, foot_num, deleted, create_time, update_time, 
+    answer_context
+    from answer_info
+  </select>
+  <select id="selectByPostId" resultMap="BaseResultMap" >
+    select id, post_id, user_uid, hand_num, foot_num, deleted, create_time, update_time,
+    answer_context
+    from answer_info WHERE post_id = #{postId,jdbcType=INTEGER} and deleted = FALSE
+  </select>
+
+</mapper>
