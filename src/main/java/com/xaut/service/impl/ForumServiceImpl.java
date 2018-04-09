@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,12 +35,75 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public boolean save(UserInfo userInfo, GameInfo gameInfo, int id) {
-        return false;
+    public boolean save(UserInfo userInfo, PostInfo postInfo) {
+        Date date = new Date();
+        /**
+         * todo
+         */
+        postInfo.setUserUid("111111111111");
+        postInfo.setCreateTime(date);
+        postInfo.setUpdateTime(date);
+        postInfo.setNum(0);
+        postInfo.setDeleted(false);
+        return postInfoDao.insert(postInfo);
     }
 
     @Override
     public List<AnswerInfo> selectByPostId(int postId) {
         return answerInfoDao.selectByPostId(postId);
+    }
+
+    @Override
+    public boolean delPost(int postId) {
+        PostInfo postInfo = postInfoDao.selectByPrimaryKey(postId);
+        postInfo.setUpdateTime(new Date());
+        postInfo.setDeleted(true);
+        return postInfoDao.updateByPrimaryKey(postInfo);
+    }
+
+    @Override
+    public boolean replyPost(UserInfo userInfo, int postId, String answerContext) {
+        AnswerInfo answerInfo = new AnswerInfo();
+        Date date = new Date();
+        answerInfo.setUserUid("1111111");
+        answerInfo.setPostId(postId);
+        answerInfo.setAnswerContext(answerContext);
+        answerInfo.setHandNum(0);
+        answerInfo.setFootNum(0);
+        answerInfo.setDeleted(false);
+        answerInfo.setCreateTime(date);
+        answerInfo.setUpdateTime(date);
+
+        return answerInfoDao.insert(answerInfo);
+    }
+
+    @Override
+    public boolean delReplyPost(int answerId) {
+        AnswerInfo answerInfo = answerInfoDao.selectByPrimaryKey(answerId);
+        answerInfo.setUpdateTime(new Date());
+        answerInfo.setDeleted(true);
+
+        return answerInfoDao.updateByPrimaryKey(answerInfo);
+    }
+
+    @Override
+    public boolean doHand(int answerId) {
+        AnswerInfo answerInfo = answerInfoDao.selectByPrimaryKey(answerId);
+        int oldNum = answerInfo.getHandNum();
+        answerInfo.setHandNum(++oldNum);
+
+        return answerInfoDao.updateByPrimaryKey(answerInfo);
+    }
+
+    @Override
+    public boolean doFoot(int answerId) {
+        AnswerInfo answerInfo = answerInfoDao.selectByPrimaryKey(answerId);
+        int oldNum = answerInfo.getFootNum();
+        int newNum = ++oldNum;
+        if(newNum >= 100){
+            return delReplyPost(answerId);
+        }
+        answerInfo.setFootNum(newNum);
+        return answerInfoDao.updateByPrimaryKey(answerInfo);
     }
 }

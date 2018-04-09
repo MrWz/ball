@@ -24,4 +24,6 @@ public interface UserService {
 
     Boolean checkRegister(String username,String password ,MultipartFile file);
 
+    UserInfo selectByUid(String uid);
+
 }

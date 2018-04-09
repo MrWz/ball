@@ -32,10 +32,6 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private SportPlaceDao sportPlaceDao;
 
-    @Autowired
-    RedisCountHotBookUtil redisCountHotBookUtil;
-
-
     @Override
     public List<GameInfo> selectAll() {
         return gameInfoDao.selectAll();
@@ -64,6 +60,9 @@ public class GameServiceImpl implements GameService {
         sportPlace.setEndTime(gameInfoEndTime);
         sportPlaceDao.updateByPrimaryKey(sportPlace);
         Date date = new Date();
+        /**
+         * todo
+         */
         String uid = UIDUtil.getRandomUID();
         gameInfo.setUid(uid);
         gameInfo.setUserUid(uid);

@@ -54,6 +54,9 @@ public class GameController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Object release(GameInfo gameInfo, @RequestParam(value = "placeId") int id) {
 
+        /**
+         * todo
+         */
         UserInfo userInfo = new UserInfo();
         if (gameService.save(userInfo, gameInfo, id)) {
             return ResultBuilder.create().code(200).message("比赛发布成功").build();

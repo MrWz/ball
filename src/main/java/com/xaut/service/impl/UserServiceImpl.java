@@ -108,6 +108,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public UserInfo selectByUid(String uid) {
+        return userInfoDao.selectByUid(uid);
+    }
+
 
     /**
      * 验证登录是否成功

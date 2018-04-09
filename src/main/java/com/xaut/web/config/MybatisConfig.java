@@ -1,6 +1,7 @@
 package com.xaut.web.config;
 
 import com.github.pagehelper.PageHelper;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -27,10 +28,10 @@ import java.util.Properties;
  * Version :
  */
 @Configuration
-@AutoConfigureAfter({ DataSourceConfiguration.class })
-@MapperScan(basePackages="com.xaut.dao")
+@AutoConfigureAfter({DataSourceConfiguration.class})
+@MapperScan(basePackages = "com.xaut.dao")
 @EnableTransactionManagement
-public class MybatisConfig implements TransactionManagementConfigurer{
+public class MybatisConfig implements TransactionManagementConfigurer {
     @Autowired
     private DataSource dataSource;
 
@@ -38,11 +39,15 @@ public class MybatisConfig implements TransactionManagementConfigurer{
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new DataSourceTransactionManager(dataSource);
     }
+
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws SQLException {
         try {
             SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Interceptor[] plugins =  new Interceptor[]{new PageHelper()};
+
+            bean.setPlugins(plugins);
             bean.setDataSource(dataSource);
             bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
             bean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
@@ -59,13 +64,18 @@ public class MybatisConfig implements TransactionManagementConfigurer{
 
     @Bean
     public PageHelper pageHelper() {
-        System.out.println("MyBatisConfiguration.pageHelper()");
+        System.out.println("配置pageHelper..................");
         PageHelper pageHelper = new PageHelper();
-        Properties p = new Properties();
-        p.setProperty("offsetAsPageNum", "true");
-        p.setProperty("rowBoundsWithCount", "true");
-        p.setProperty("reasonable", "true");
-        pageHelper.setProperties(p);
+        Properties properties = new Properties();
+        properties.setProperty("offsetAsPageNum", "true");
+        properties.setProperty("rowBoundsWithCount", "true");
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("dialect", "mysql");    //配置mysql数据库的语言
+        pageHelper.setProperties(properties);
+        System.out.println("pageHelper配置完成..................");
+
+        //添加插件
+//        new SqlSessionFactoryBean().setPlugins(new Interceptor[]{pageHelper});
         return pageHelper;
     }
 }

@@ -16,7 +16,17 @@ public interface ForumService {
 
     List<PostInfo> selectAll();
 
-    boolean save(UserInfo userInfo, GameInfo gameInfo, int id);
+    boolean save(UserInfo userInfo, PostInfo postInfo);
 
     List<AnswerInfo> selectByPostId(int postId);
+
+    boolean delPost(int postId);
+
+    boolean replyPost(UserInfo userInfo, int postId, String answerContext);
+
+    boolean delReplyPost(int answerId);
+
+    boolean doHand(int answerId);
+
+    boolean doFoot(int answerId);
 }
