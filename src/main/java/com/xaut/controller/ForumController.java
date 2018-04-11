@@ -8,6 +8,7 @@ import com.xaut.entity.UserInfo;
 import com.xaut.service.ForumService;
 import com.xaut.service.UserService;
 import com.xaut.util.ResultBuilder;
+import com.xaut.web.annotation.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +60,7 @@ public class ForumController {
      * @param postId 帖子ID
      * @return 回复楼层信息
      */
-    @RequestMapping(value = "/detail/{postId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/detail/{postId}", method = RequestMethod.POST)
     public Object list(@PathVariable int postId) {
         List<AnswerInfo> answerInfoList = forumService.selectByPostId(postId);
         List<UserInfo> userInfoList = new ArrayList<>();
@@ -96,6 +97,7 @@ public class ForumController {
      * @param postId 帖子ID
      * @return 成功或者失败
      */
+//    @Authorization
     @RequestMapping(value = "/del/{postId}", method = RequestMethod.DELETE)
     public Object deletePost(@PathVariable int postId) {
 
@@ -141,9 +143,9 @@ public class ForumController {
 
         UserInfo userInfo = new UserInfo();
         if (forumService.delReplyPost(answerId)) {
-            return ResultBuilder.create().code(200).message("删帖成功").build();
+            return ResultBuilder.create().code(200).message("删评论成功").build();
         }
-        return ResultBuilder.create().code(500).message("删帖失败").build();
+        return ResultBuilder.create().code(500).message("删评论失败").build();
     }
 
     /**

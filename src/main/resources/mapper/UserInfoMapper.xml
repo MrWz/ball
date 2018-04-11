@@ -41,15 +41,16 @@
     <select id="selectAll" resultMap="BaseResultMap">
     select id, uid, name, password, picture, deleted, create_time, update_time
     from user_info
+    WHERE deleted = FALSE
   </select>
     <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select id, uid, name, password, picture, deleted, create_time, update_time
         from user_info
-        where name = #{name,jdbcType=VARCHAR}
+        where name = #{name,jdbcType=VARCHAR} AND deleted = FALSE
     </select>
     <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.String">
         select id, uid, name, password, picture, deleted, create_time, update_time
         from user_info
-        where uid = #{uid,jdbcType=VARCHAR}
+        where uid = #{uid,jdbcType=VARCHAR} AND deleted = FALSE
     </select>
 </mapper>

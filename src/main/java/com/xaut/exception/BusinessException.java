@@ -5,26 +5,26 @@ package com.xaut.exception;
  */
 public class BusinessException extends RuntimeException {
 
-    private int code;
+    private int statusCode;
 
     public BusinessException() {}
 
     public BusinessException(ErrorsEnum resultEnum) {
         super(resultEnum.getMessage());
-        this.code = resultEnum.getCode();
+        this.statusCode = resultEnum.getCode();
     }
 
     public BusinessException(int code, String message) {
         super(message);
-        this.code = code;
+        this.statusCode = code;
     }
 
     public int getCode() {
-        return code;
+        return statusCode;
     }
 
     public void setCode(int code) {
-        this.code = code;
+        this.statusCode = code;
     }
 
 }

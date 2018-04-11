@@ -43,7 +43,8 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table schema="ANSWER_INFO_DEMO" tableName="answer_info"/>
+        <table schema="PLACE_LIST_DEMO" tableName="place_list"/>
+        <!--<table schema="ANSWER_INFO_DEMO" tableName="answer_info"/>-->
         <!--<table schema="POST_INFO_DEMO" tableName="post_info"/>-->
         <!--<table schema="TYPE_INFO_DEMO" tableName="type_info"/>-->
         <!--<table schema="SPORT_PLACE_DEMO" tableName="sport_place"/>-->

@@ -16,4 +16,9 @@ public interface UserGameDao {
     List<UserGame> selectAll();
 
     int updateByPrimaryKey(UserGame record);
+
+    List<UserGame> selectByGameUid(String gameUid);
+
+    List<UserGame> selectByUserUid(String userUid);
+
 }

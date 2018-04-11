@@ -37,10 +37,16 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, type, identifier, start_time, end_time, deleted, create_time, update_time
     from sport_place
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}  AND deleted = FALSE
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, type, identifier, start_time, end_time, deleted, create_time, update_time
     from sport_place
+     WHERE deleted = FALSE
+  </select>
+  <select id="selectByPlace" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, type, identifier, start_time, end_time, deleted, create_time, update_time
+    from sport_place
+    where type = #{type,jdbcType=VARCHAR} AND identifier = #{identifier,jdbcType=VARCHAR}  AND deleted = FALSE
   </select>
 </mapper>

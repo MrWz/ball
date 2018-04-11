@@ -44,13 +44,13 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByUid" resultMap="BaseResultMap" parameterType="java.lang.String">
     select id, uid, user_uid, type, start_time,
       place, people_num, description, end_time,
       deleted, create_time,
       update_time
     from game_info
-    where id = #{id,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=VARCHAR}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select id, uid, user_uid, type, start_time,

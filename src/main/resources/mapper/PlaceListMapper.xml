@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xaut.dao.PlaceListDao" >
+  <resultMap id="BaseResultMap" type="com.xaut.entity.PlaceList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="game_uid" property="gameUid" jdbcType="VARCHAR" />
+    <result column="place_id" property="placeId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from place_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xaut.entity.PlaceList" >
+    insert into place_list (id, game_uid, place_id, start_time,
+      end_time, deleted, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{gameUid,jdbcType=VARCHAR}, #{placeId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP},
+      #{endTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.xaut.entity.PlaceList" >
+    update place_list
+    set game_uid = #{gameUid,jdbcType=VARCHAR},
+      place_id = #{placeId,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPlaceId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, game_uid, place_id, start_time, end_time, deleted, create_time, update_time
+    from place_list
+    where place_id = #{placeId,jdbcType=INTEGER} AND deleted = FALSE
+  </select>
+  <select id="selectByGameUid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, game_uid, place_id, start_time, end_time, deleted, create_time, update_time
+    from place_list
+    where game_uid = #{gameUid,jdbcType=VARCHAR}  AND deleted = FALSE
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, game_uid, place_id, start_time, end_time, deleted, create_time, update_time
+    from place_list
+    WHERE deleted =FALSE
+  </select>
+</mapper>

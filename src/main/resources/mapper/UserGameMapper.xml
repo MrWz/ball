@@ -33,10 +33,22 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select id, user_uid, game_uid, deleted, create_time, update_time
     from user_game
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}  AND deleted = FALSE
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select id, user_uid, game_uid, deleted, create_time, update_time
     from user_game
+    WHERE deleted = FALSE
   </select>
+    <select id="selectByGameUid"  resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, user_uid, game_uid, deleted, create_time, update_time
+    from user_game
+    where game_uid = #{gameUid,jdbcType=VARCHAR}  AND deleted = FALSE
+</select>
+    <select id="selectByUserUid"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, user_uid, game_uid, deleted, create_time, update_time
+        from user_game
+        where user_uid = #{userUid,jdbcType=VARCHAR} AND deleted = FALSE
+    </select>
+
 </mapper>

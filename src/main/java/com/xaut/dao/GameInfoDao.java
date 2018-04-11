@@ -11,7 +11,7 @@ public interface GameInfoDao {
 
     boolean insert(GameInfo record);
 
-    GameInfo selectByPrimaryKey(Integer id);
+    GameInfo selectByUid(String uid);
 
     List<GameInfo> selectAll();
 

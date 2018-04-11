@@ -79,6 +79,14 @@ public class UserController {
         return ResultBuilder.create().code(500).message("用户名已存在").build();
     }
 
+    /**
+     * 用户登录
+     *
+     * @param response 响应头
+     * @param username 用户名
+     * @param password 密码
+     * @return 响应实体
+     */
     @PostMapping("/login")
     public Object login(HttpServletResponse response, @RequestParam String username, @RequestParam String password) {
         boolean flag = userService.checkLogin(username, password);
@@ -127,12 +135,20 @@ public class UserController {
     }
 
 
+    /**
+     * 获取比赛类型列表
+     * @return 系统支持比赛类型
+     */
     @RequestMapping(value = "/typeList", method = RequestMethod.GET)
     public Object typeList() {
         List<TypeInfo> typeList = typeInfoDao.selectAll();
         return ResultBuilder.create().code(200).data("typeList", typeList).build();
     }
 
+    /**
+     * 获取场地列表
+     * @return 系统场地
+     */
     @RequestMapping(value = "/placeList", method = RequestMethod.GET)
     public Object placeList() {
         List<SportPlace> sportPlaceList = sportPlaceDao.selectAll();
@@ -147,10 +163,10 @@ public class UserController {
      */
     @Authorization
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object release(@CurrentUser UserInfo user, GameInfo gameInfo, @RequestParam(value = "placeId") int id) {
+    public Object release(@CurrentUser UserInfo user, GameInfo gameInfo, @RequestParam(value = "placeId") int placeId) {
 
         UserInfo userInfo = new UserInfo();
-        if (gameService.save(userInfo, gameInfo, id)) {
+        if (gameService.save(userInfo, gameInfo, placeId)) {
             return ResultBuilder.create().code(200).message("比赛发布成功").build();
         }
         return ResultBuilder.create().code(500).message("比赛发布失败，请重新发布").build();

@@ -17,7 +17,7 @@ public class ResponseUtil {
         response.setStatus(code);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), Charset.forName("UTF-8")));
-        writer.write("{\"code\": " + code
+        writer.write("{\"statusCode\": " + code
                 + ",\"message\": \"" + msg
                 + "\",\"data\": null}");
         writer.close();

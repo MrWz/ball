@@ -14,6 +14,11 @@ public interface GameService {
 
     List<GameInfo> selectAll();
 
-    boolean save(UserInfo userInfo,GameInfo gameInfo,int id);
+    boolean save(UserInfo userInfo, GameInfo gameInfo, int placeId);
 
+    boolean join(UserInfo userInfo, String gameUid);
+
+    boolean quit(UserInfo userInfo, String gameUid);
+
+    boolean end(UserInfo userInfo, String gameUid);
 }
