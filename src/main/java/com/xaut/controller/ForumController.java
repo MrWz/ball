@@ -101,7 +101,9 @@ public class ForumController {
     @RequestMapping(value = "/del/{postId}", method = RequestMethod.DELETE)
     public Object deletePost(@PathVariable int postId) {
 
-        if (forumService.delPost(postId)) {
+        // TODO: 2018/4/12 遗留问题
+        UserInfo userInfo = new UserInfo();
+        if (forumService.delPost(userInfo,postId)) {
             return ResultBuilder.create().code(200).message("删帖成功").build();
         }
         return ResultBuilder.create().code(500).message("删帖失败").build();
@@ -137,12 +139,10 @@ public class ForumController {
     //    @Authorization
     @RequestMapping(value = "/reply/{answerId}", method = RequestMethod.DELETE)
     public Object delReplyPost(@PathVariable int answerId) {
-        /**
-         * todo 当前用户删帖
-         */
+        // TODO: 2018/4/12 遗留问题
 
         UserInfo userInfo = new UserInfo();
-        if (forumService.delReplyPost(answerId)) {
+        if (forumService.delReplyPost(userInfo,answerId)) {
             return ResultBuilder.create().code(200).message("删评论成功").build();
         }
         return ResultBuilder.create().code(500).message("删评论失败").build();
@@ -171,6 +171,7 @@ public class ForumController {
      */
     @RequestMapping(value = "/doFoot/{answerId}", method = RequestMethod.POST)
     public Object dFoot(@PathVariable int answerId) {
+
         if (forumService.doFoot(answerId)) {
             return ResultBuilder.create().code(200).message("点踩成功").build();
         }

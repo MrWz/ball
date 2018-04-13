@@ -2,10 +2,10 @@ package com.xaut.service.impl;
 
 import com.xaut.dao.AnswerInfoDao;
 import com.xaut.dao.PostInfoDao;
-import com.xaut.entity.AnswerInfo;
-import com.xaut.entity.GameInfo;
-import com.xaut.entity.PostInfo;
-import com.xaut.entity.UserInfo;
+import com.xaut.dao.UserRoleDao;
+import com.xaut.entity.*;
+import com.xaut.exception.BusinessException;
+import com.xaut.exception.ErrorsEnum;
 import com.xaut.service.ForumService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,9 @@ public class ForumServiceImpl implements ForumService {
 
     @Autowired
     private AnswerInfoDao answerInfoDao;
+
+    @Autowired
+    private UserRoleDao userRoleDao;
 
     @Override
     public List<PostInfo> selectAll() {
@@ -54,8 +57,16 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public boolean delPost(int postId) {
+    public boolean delPost(UserInfo userInfo, int postId) {
         PostInfo postInfo = postInfoDao.selectByPrimaryKey(postId);
+        String userUid = postInfo.getUserUid();
+
+        UserRole userRole = userRoleDao.selectByUserUid(userUid);
+        String roleUid = userRole.getRoleUid();
+
+        if (!(userUid.equals(userInfo.getUid()) && roleUid.equals("2"))) {
+            throw new BusinessException(ErrorsEnum.EX_20014.getCode(), ErrorsEnum.EX_20014.getMessage());
+        }
         postInfo.setUpdateTime(new Date());
         postInfo.setDeleted(true);
         return postInfoDao.updateByPrimaryKey(postInfo);
@@ -78,8 +89,16 @@ public class ForumServiceImpl implements ForumService {
     }
 
     @Override
-    public boolean delReplyPost(int answerId) {
+    public boolean delReplyPost(UserInfo userInfo, int answerId) {
         AnswerInfo answerInfo = answerInfoDao.selectByPrimaryKey(answerId);
+        String userUid = answerInfo.getUserUid();
+        UserRole userRole = userRoleDao.selectByUserUid(userInfo.getUid());
+        String roleUid = userRole.getRoleUid();
+
+        if (!(userUid.equals(userInfo.getUid()) && roleUid.equals("2"))) {
+            throw new BusinessException(ErrorsEnum.EX_20014.getCode(), ErrorsEnum.EX_20014.getMessage());
+        }
+
         answerInfo.setUpdateTime(new Date());
         answerInfo.setDeleted(true);
 
@@ -97,11 +116,14 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public boolean doFoot(int answerId) {
+        UserInfo userInfo = new UserInfo();
+        // TODO: 2018/4/12 可能存在bug，未测试
+        userInfo.setUid("1");
         AnswerInfo answerInfo = answerInfoDao.selectByPrimaryKey(answerId);
         int oldNum = answerInfo.getFootNum();
         int newNum = ++oldNum;
-        if(newNum >= 100){
-            return delReplyPost(answerId);
+        if (newNum >= 100) {
+            return delReplyPost(userInfo,answerId);
         }
         answerInfo.setFootNum(newNum);
         return answerInfoDao.updateByPrimaryKey(answerInfo);

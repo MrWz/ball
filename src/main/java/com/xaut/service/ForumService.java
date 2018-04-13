@@ -20,11 +20,11 @@ public interface ForumService {
 
     List<AnswerInfo> selectByPostId(int postId);
 
-    boolean delPost(int postId);
+    boolean delPost(UserInfo userInfo, int postId);
 
     boolean replyPost(UserInfo userInfo, int postId, String answerContext);
 
-    boolean delReplyPost(int answerId);
+    boolean delReplyPost(UserInfo userInfo, int answerId);
 
     boolean doHand(int answerId);
 

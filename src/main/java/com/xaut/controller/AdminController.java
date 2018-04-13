@@ -110,7 +110,7 @@ public class AdminController{
          */
 
         UserInfo userInfo = new UserInfo();
-        if (forumService.delReplyPost(answerId)) {
+        if (forumService.delReplyPost(userInfo,answerId)) {
             return ResultBuilder.create().code(200).message("删评论成功").build();
         }
         return ResultBuilder.create().code(500).message("删评论失败").build();
