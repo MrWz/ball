@@ -24,19 +24,21 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/admin/v1")
 public class AdminController{
 
-    @Resource
-    private UserInfoDao userInfoDao;
+    private final UserInfoDao userInfoDao;
+
+    private final UserService userService;
+
+    private final TokenManager tokenManager;
+
+    private final ForumService forumService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    TokenManager tokenManager;
-
-
-    @Autowired
-    private ForumService forumService;
-
+    public AdminController(UserService userService, TokenManager tokenManager, ForumService forumService, UserInfoDao userInfoDao) {
+        this.userService = userService;
+        this.tokenManager = tokenManager;
+        this.forumService = forumService;
+        this.userInfoDao = userInfoDao;
+    }
 
     /**
      * 管理员登录
@@ -59,7 +61,7 @@ public class AdminController{
 
             return ResultBuilder.create().code(200).message("您已登录成功").data("userinfo",user).build();
         }
-        return ResultBuilder.create().code(500).message("用户名或者密码错误").build();
+        return ResultBuilder.create().code(500).message("密码错误").build();
     }
 
     /**

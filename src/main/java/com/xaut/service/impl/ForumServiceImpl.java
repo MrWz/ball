@@ -39,10 +39,12 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public boolean save(UserInfo userInfo, PostInfo postInfo) {
+        if (postInfo == null) {
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(), ErrorsEnum.EX_10001.getMessage());
+        }
         Date date = new Date();
-        /**
-         * todo
-         */
+        // TODO: 2018/4/13 当前用户
+        // TODO: 2018/4/13 对帖子内容和标题内容进行非法检测
         postInfo.setUserUid("111111111111");
         postInfo.setCreateTime(date);
         postInfo.setUpdateTime(date);
@@ -74,6 +76,11 @@ public class ForumServiceImpl implements ForumService {
 
     @Override
     public boolean replyPost(UserInfo userInfo, int postId, String answerContext) {
+        if (answerContext == null) {
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(), ErrorsEnum.EX_10001.getMessage());
+        }
+        // TODO: 2018/4/13 在线用户
+        // TODO: 2018/4/13 对帖子内容和标题内容进行非法检测
         AnswerInfo answerInfo = new AnswerInfo();
         Date date = new Date();
         answerInfo.setUserUid("1111111");

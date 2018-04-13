@@ -34,23 +34,27 @@ import java.util.List;
 @RequestMapping("/user/v1")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final UserInfoDao userInfoDao;
+
+    private final TypeInfoDao typeInfoDao;
+
+    private final SportPlaceDao sportPlaceDao;
+
+    private final TokenManager tokenManager;
+
+    private final GameService gameService;
 
     @Autowired
-    private UserInfoDao userInfoDao;
-
-    @Autowired
-    private TypeInfoDao typeInfoDao;
-
-    @Autowired
-    private SportPlaceDao sportPlaceDao;
-
-    @Autowired
-    private TokenManager tokenManager;
-
-    @Autowired
-    private GameService gameService;
+    public UserController(UserService userService, UserInfoDao userInfoDao, TypeInfoDao typeInfoDao, SportPlaceDao sportPlaceDao, TokenManager tokenManager, GameService gameService) {
+        this.userService = userService;
+        this.userInfoDao = userInfoDao;
+        this.typeInfoDao = typeInfoDao;
+        this.sportPlaceDao = sportPlaceDao;
+        this.tokenManager = tokenManager;
+        this.gameService = gameService;
+    }
 
 
     /**
@@ -63,8 +67,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Object register(HttpServletResponse response, String username, String password, MultipartFile file) {
-        boolean flag = userService.checkRegister(username, password, file);
+    public Object register(HttpServletResponse response, String username, String password, MultipartFile picture) {
+        boolean flag = userService.checkRegister(username, password, picture);
         if (flag) {
             UserInfo user = userInfoDao.selectByName(username);
             // 生成一个 token，保存用户登录状态
@@ -101,12 +105,12 @@ public class UserController {
             response.setCharacterEncoding("utf-8");
 
             // 生成一个 token，保存用户登录状态
+            // TODO: 2018/4/13 token存放于cookie有bug
             TokenModel model = tokenManager.createToken(user.getUid());
             Cookie cookie = new Cookie(HeaderConstant.X_AUTH_TOKEN, model.toString());
             // 有效期,秒为单位
             cookie.setMaxAge(3600);
             response.addCookie(cookie);
-
 
             /**
              * todo
@@ -115,7 +119,7 @@ public class UserController {
             response.setHeader("username", user.getName());
             return ResultBuilder.create().code(200).message("请去首页进行选购").data("userinfo", user).build();
         }
-        return ResultBuilder.create().code(500).message("用户名或者密码错误").build();
+        return ResultBuilder.create().code(500).message("密码错误").build();
     }
 
     /**
@@ -128,15 +132,13 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.DELETE)
     @Authorization
     public Object loginOff(HttpServletResponse response, @CurrentUser UserInfo user) {
-        System.out.println("loginoff");
-        // 有效期,秒为单位
         tokenManager.deleteToken(user.getUid());
         return ResultBuilder.create().code(200).message("注销成功").build();
     }
 
-
     /**
      * 获取比赛类型列表
+     *
      * @return 系统支持比赛类型
      */
     @RequestMapping(value = "/typeList", method = RequestMethod.GET)
@@ -147,6 +149,7 @@ public class UserController {
 
     /**
      * 获取场地列表
+     *
      * @return 系统场地
      */
     @RequestMapping(value = "/placeList", method = RequestMethod.GET)
@@ -170,11 +173,5 @@ public class UserController {
             return ResultBuilder.create().code(200).message("比赛发布成功").build();
         }
         return ResultBuilder.create().code(500).message("比赛发布失败，请重新发布").build();
-    }
-
-
-    @RequestMapping("/buy")
-    public String buy(@CurrentUser UserInfoDto a) {
-        return "buy success";
     }
 }

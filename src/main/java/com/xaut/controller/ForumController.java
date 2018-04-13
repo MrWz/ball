@@ -8,7 +8,6 @@ import com.xaut.entity.UserInfo;
 import com.xaut.service.ForumService;
 import com.xaut.service.UserService;
 import com.xaut.util.ResultBuilder;
-import com.xaut.web.annotation.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +21,15 @@ import java.util.List;
 @RequestMapping("/forum/v1")
 public class ForumController {
 
-    @Autowired
-    private ForumService forumService;
+    private final ForumService forumService;
+
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
+    public ForumController(ForumService forumService, UserService userService) {
+        this.forumService = forumService;
+        this.userService = userService;
+    }
 
     /**
      * 获取帖子列表
@@ -47,11 +50,9 @@ public class ForumController {
             String userUid = postInfo.getUserUid();
             userInfoList.add(userService.selectByUid(userUid));
         }
-        PageInfo pagePost = new PageInfo(allPost, navigatePages);
-        /**
-         * todo 返回值
-         */
-        return ResultBuilder.create().code(200).data("pagePost", pagePost).data("userInfoList", userInfoList).build();
+        PageInfo<PostInfo> pagePost = new PageInfo<>(allPost, navigatePages);
+        // TODO: 2018/4/13 返回值
+        return ResultBuilder.create().code(200).data("postInfoList", pagePost).data("userInfoList", userInfoList).build();
     }
 
     /**
@@ -68,6 +69,7 @@ public class ForumController {
             String userUid = answerInfo.getUserUid();
             userInfoList.add(userService.selectByUid(userUid));
         }
+        // TODO: 2018/4/13 返回值
         return ResultBuilder.create().code(200).data("answerInfoList", answerInfoList).data("userInfoList", userInfoList).build();
     }
 
@@ -81,9 +83,7 @@ public class ForumController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Object releasePost(PostInfo postInfo) {
 
-        /**
-         * todo 在线用户
-         */
+        // TODO: 2018/4/13 在线用户
         UserInfo userInfo = new UserInfo();
         if (forumService.save(userInfo, postInfo)) {
             return ResultBuilder.create().code(200).message("发帖成功").build();
@@ -101,9 +101,9 @@ public class ForumController {
     @RequestMapping(value = "/del/{postId}", method = RequestMethod.DELETE)
     public Object deletePost(@PathVariable int postId) {
 
-        // TODO: 2018/4/12 遗留问题
+        // TODO: 2018/4/12 在线用户
         UserInfo userInfo = new UserInfo();
-        if (forumService.delPost(userInfo,postId)) {
+        if (forumService.delPost(userInfo, postId)) {
             return ResultBuilder.create().code(200).message("删帖成功").build();
         }
         return ResultBuilder.create().code(500).message("删帖失败").build();
@@ -119,15 +119,12 @@ public class ForumController {
     //    @Authorization
     @RequestMapping(value = "/reply/{postId}", method = RequestMethod.POST)
     public Object replyPost(@PathVariable int postId, String answerContext) {
-        /**
-         * todo 当前用户回帖
-         */
-
+        // TODO: 2018/4/13 在线用户
         UserInfo userInfo = new UserInfo();
         if (forumService.replyPost(userInfo, postId, answerContext)) {
             return ResultBuilder.create().code(200).message("回帖成功").build();
         }
-        return ResultBuilder.create().code(500).message("删帖失败").build();
+        return ResultBuilder.create().code(500).message("回帖失败").build();
     }
 
     /**
@@ -139,10 +136,9 @@ public class ForumController {
     //    @Authorization
     @RequestMapping(value = "/reply/{answerId}", method = RequestMethod.DELETE)
     public Object delReplyPost(@PathVariable int answerId) {
-        // TODO: 2018/4/12 遗留问题
-
+        // TODO: 2018/4/12 在线用户
         UserInfo userInfo = new UserInfo();
-        if (forumService.delReplyPost(userInfo,answerId)) {
+        if (forumService.delReplyPost(userInfo, answerId)) {
             return ResultBuilder.create().code(200).message("删评论成功").build();
         }
         return ResultBuilder.create().code(500).message("删评论失败").build();
@@ -156,11 +152,8 @@ public class ForumController {
      */
     @RequestMapping(value = "/doHand/{answerId}", method = RequestMethod.POST)
     public Object doHand(@PathVariable int answerId) {
-
-        if (forumService.doHand(answerId)) {
-            return ResultBuilder.create().code(200).message("点赞成功").build();
-        }
-        return ResultBuilder.create().code(500).message("点赞失败").build();
+        forumService.doHand(answerId);
+        return ResultBuilder.create().code(200).message("点赞成功").build();
     }
 
     /**
@@ -171,10 +164,7 @@ public class ForumController {
      */
     @RequestMapping(value = "/doFoot/{answerId}", method = RequestMethod.POST)
     public Object dFoot(@PathVariable int answerId) {
-
-        if (forumService.doFoot(answerId)) {
-            return ResultBuilder.create().code(200).message("点踩成功").build();
-        }
-        return ResultBuilder.create().code(500).message("点踩失败").build();
+        forumService.doFoot(answerId);
+        return ResultBuilder.create().code(200).message("点踩成功").build();
     }
 }

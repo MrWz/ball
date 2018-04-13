@@ -50,7 +50,7 @@
       deleted, create_time,
       update_time
     from game_info
-    where uid = #{uid,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=VARCHAR} AND deleted = FALSE
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select id, uid, user_uid, type, start_time,
@@ -58,5 +58,6 @@
       deleted, create_time,
       update_time
     from game_info
+    WHERE deleted = FALSE
   </select>
 </mapper>

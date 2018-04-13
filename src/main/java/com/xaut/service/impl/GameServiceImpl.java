@@ -25,17 +25,21 @@ import java.util.List;
 @Slf4j
 public class GameServiceImpl implements GameService {
 
-    @Autowired
-    private GameInfoDao gameInfoDao;
+    private final GameInfoDao gameInfoDao;
+
+    private final SportPlaceDao sportPlaceDao;
+
+    private final UserGameDao userGameDao;
+
+    private final PlaceListDao placeListDao;
 
     @Autowired
-    private SportPlaceDao sportPlaceDao;
-
-    @Autowired
-    private UserGameDao userGameDao;
-
-    @Autowired
-    private PlaceListDao placeListDao;
+    public GameServiceImpl(GameInfoDao gameInfoDao, SportPlaceDao sportPlaceDao, UserGameDao userGameDao, PlaceListDao placeListDao) {
+        this.gameInfoDao = gameInfoDao;
+        this.sportPlaceDao = sportPlaceDao;
+        this.userGameDao = userGameDao;
+        this.placeListDao = placeListDao;
+    }
 
     @Override
     public List<GameInfo> selectAll() {
@@ -44,6 +48,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public boolean save(UserInfo userInfo, GameInfo gameInfo, int placeId) {
+        if (gameInfo == null) {
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(), ErrorsEnum.EX_10001.getMessage());
+        }
+
         SportPlace sportPlace = sportPlaceDao.selectByPrimaryKey(placeId);
         String type = sportPlace.getType();
         if (!type.equals(gameInfo.getType())) {
@@ -90,8 +98,6 @@ public class GameServiceImpl implements GameService {
         gameInfo.setDeleted(false);
         gameInfo.setCreateTime(date);
         gameInfo.setUpdateTime(date);
-        gameInfo.setStartTime(date);
-        gameInfo.setDescription("测试数据");
         int oldNum = gameInfo.getPeopleNum();
         gameInfo.setPeopleNum(--oldNum);
 
@@ -108,6 +114,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public boolean join(UserInfo userInfo, String gameUid) {
+        if (gameUid == null) {
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(), ErrorsEnum.EX_10001.getMessage());
+        }
+
+        // TODO: 2018/4/13 并发问题
         GameInfo gameInfo = gameInfoDao.selectByUid(gameUid);
         if (gameInfo.getPeopleNum() <= 0) {
             return false;
@@ -130,10 +141,13 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public boolean quit(UserInfo userInfo, String gameUid) {
+        if (gameUid == null) {
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(), ErrorsEnum.EX_10001.getMessage());
+        }
+
         GameInfo gameInfo = gameInfoDao.selectByUid(gameUid);
-        /**
-         * todo
-         */
+
+        // TODO: 2018/4/13  在线用户
         List<UserGame> userGameList = userGameDao.selectByUserUid(gameUid);
         for (UserGame userGame : userGameList) {
             String userGameUid = userGame.getGameUid();
@@ -141,6 +155,7 @@ public class GameServiceImpl implements GameService {
                 int oldNum = gameInfo.getPeopleNum();
                 gameInfo.setPeopleNum(++oldNum);
                 gameInfoDao.updateByPrimaryKey(gameInfo);
+
                 userGame.setDeleted(true);
                 userGameDao.updateByPrimaryKey(userGame);
 
@@ -148,11 +163,17 @@ public class GameServiceImpl implements GameService {
             }
         }
         return false;
-
     }
 
     @Override
     public boolean end(UserInfo userInfo, String gameUid) {
+        if (gameUid == null) {
+            throw new BusinessException(ErrorsEnum.EX_10001.getCode(), ErrorsEnum.EX_10001.getMessage());
+        }
+
+        GameInfo gameInfo = gameInfoDao.selectByUid(gameUid);
+        gameInfo.setDeleted(true);
+        gameInfoDao.updateByPrimaryKey(gameInfo);
 
         PlaceList placeList = placeListDao.selectByGameUid(gameUid);
         placeList.setDeleted(true);
