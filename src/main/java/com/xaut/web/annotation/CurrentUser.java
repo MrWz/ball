@@ -7,7 +7,6 @@ import java.lang.annotation.*;
 
 /**
  * Author : wangzhe
- * Date :  on 2017/12/15
  * Description : 获取当前用户的注解
  * Version : 1.0
  */

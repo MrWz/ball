@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 
 /**
  * Author ： wangzhe
- * Date : 17/9/22
  * Description : 请求日志拦截记录
  * Version : 0.1
  */

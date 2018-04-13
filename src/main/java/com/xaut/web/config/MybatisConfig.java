@@ -45,7 +45,7 @@ public class MybatisConfig implements TransactionManagementConfigurer {
         try {
             SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-            Interceptor[] plugins =  new Interceptor[]{new PageHelper()};
+            Interceptor[] plugins = new Interceptor[]{new PageHelper()};
 
             bean.setPlugins(plugins);
             bean.setDataSource(dataSource);
@@ -64,18 +64,14 @@ public class MybatisConfig implements TransactionManagementConfigurer {
 
     @Bean
     public PageHelper pageHelper() {
-        System.out.println("配置pageHelper..................");
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
         properties.setProperty("offsetAsPageNum", "true");
         properties.setProperty("rowBoundsWithCount", "true");
         properties.setProperty("reasonable", "true");
-        properties.setProperty("dialect", "mysql");    //配置mysql数据库的语言
+        properties.setProperty("dialect", "mysql");
         pageHelper.setProperties(properties);
-        System.out.println("pageHelper配置完成..................");
 
-        //添加插件
-//        new SqlSessionFactoryBean().setPlugins(new Interceptor[]{pageHelper});
         return pageHelper;
     }
 }

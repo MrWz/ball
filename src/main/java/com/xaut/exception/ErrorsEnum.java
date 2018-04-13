@@ -34,6 +34,8 @@ public enum ErrorsEnum {
     RESOURCE_IS_EXIT(42002,"The Resource Is Exit"),
 
     //应该添加具体的业务异常
+    EX_9999(9999, "请您先去登录"),
+
     EX_10000(10000, "业务异常"),
     EX_10001(10001, "参数异常，不能为空"),
     EX_10002(10002, "Unknown异常"),

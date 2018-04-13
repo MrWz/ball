@@ -19,7 +19,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 @EnableCaching
 public class RedisCacheConfiguration extends CachingConfigurerSupport {
-    Logger logger = LoggerFactory.getLogger(RedisCacheConfiguration.class);
+    private Logger logger = LoggerFactory.getLogger(RedisCacheConfiguration.class);
 
     @Value("${spring.redis.host}")
     private String host;
@@ -44,7 +44,6 @@ public class RedisCacheConfiguration extends CachingConfigurerSupport {
 
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
 
-        logger.info("JedisPool注入成功！！");
         logger.info("redis地址：" + host + ":" + port);
         return jedisPool;
     }

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Author ： wangzhe
- * Date : 17/11/13
  * Description : token拦截器
  * Version : 0.1
  */

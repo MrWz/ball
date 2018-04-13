@@ -97,13 +97,6 @@ public class UserController {
         if (flag) {
             UserInfo user = userInfoDao.selectByName(username);
 
-            // 设置格式
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "POST");
-            response.setHeader("Access-Control-Allow-Headers", "x-requested-with,content-type");
-            response.setContentType("text/html;charset=utf-8");
-            response.setCharacterEncoding("utf-8");
-
             // 生成一个 token，保存用户登录状态
             // TODO: 2018/4/13 token存放于cookie有bug
             TokenModel model = tokenManager.createToken(user.getUid());

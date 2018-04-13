@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
@@ -26,12 +25,21 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     public TokenInterceptor tokenInterceptor() {
         return new TokenInterceptor();
     }
+
     @Bean
-    public WebRequestInterceptor webRequestInterceptor(){return new WebRequestInterceptor();}
+    public WebRequestInterceptor webRequestInterceptor() {
+        return new WebRequestInterceptor();
+    }
+
     @Bean
-    public AuthorizationInterceptor authorizationInterceptor(){return new AuthorizationInterceptor();}
+    public AuthorizationInterceptor authorizationInterceptor() {
+        return new AuthorizationInterceptor();
+    }
+
     @Bean
-    public CurrentUserResolver currentUserResolver(){return new CurrentUserResolver();}
+    public CurrentUserResolver currentUserResolver() {
+        return new CurrentUserResolver();
+    }
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
@@ -44,8 +52,12 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorizationInterceptor()).addPathPatterns("/*/**");
+        registry.addInterceptor(webRequestInterceptor()).addPathPatterns("/*/**");
+
         super.addInterceptors(registry);
     }
+
+
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/internal/**").addResourceLocations("classPath:/");
