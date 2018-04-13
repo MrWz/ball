@@ -5,16 +5,14 @@ import com.xaut.dao.UserInfoDao;
 import com.xaut.dto.TokenModel;
 import com.xaut.entity.UserInfo;
 import com.xaut.manager.TokenManager;
+import com.xaut.service.ForumService;
 import com.xaut.service.UserService;
 import com.xaut.util.ResultBuilder;
 import com.xaut.web.annotation.Authorization;
 import com.xaut.web.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +32,11 @@ public class AdminController{
 
     @Autowired
     TokenManager tokenManager;
+
+
+    @Autowired
+    private ForumService forumService;
+
 
     /**
      * 管理员登录
@@ -71,5 +74,45 @@ public class AdminController{
     public Object logoff(@CurrentUser UserInfo user) {
         tokenManager.deleteToken(user.getUid());
         return ResultBuilder.create().code(200).message("注销成功").build();
+    }
+
+    /**
+     * 管理员删帖
+     *
+     * @param postId 帖子ID
+     * @return 成功或者失败
+     */
+//    @Authorization
+    @RequestMapping(value = "/del/{postId}", method = RequestMethod.DELETE)
+    public Object deletePost(@PathVariable int postId) {
+
+        /**
+         * todo
+         */
+        UserInfo userInfo = new UserInfo();
+        if (forumService.delPost(userInfo,postId)) {
+            return ResultBuilder.create().code(200).message("删帖成功").build();
+        }
+        return ResultBuilder.create().code(500).message("删帖失败").build();
+    }
+
+    /**
+     * 管理员删除回帖
+     *
+     * @param answerId 楼层回复ID
+     * @return
+     */
+    //    @Authorization
+    @RequestMapping(value = "/reply/{answerId}", method = RequestMethod.DELETE)
+    public Object delReplyPost(@PathVariable int answerId) {
+        /**
+         * todo 当前用户删帖
+         */
+
+        UserInfo userInfo = new UserInfo();
+        if (forumService.delReplyPost(answerId)) {
+            return ResultBuilder.create().code(200).message("删评论成功").build();
+        }
+        return ResultBuilder.create().code(500).message("删评论失败").build();
     }
 }
