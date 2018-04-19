@@ -2,19 +2,23 @@ var currentPage;
 $(function () {
     function d(a) {
         $.ajax({
-            type: "POST", url: "/book/v1/list", data: "pn=" + a + "&pageSize=9", error: function (a, b, c) {
+            type: "POST",
+            url: "/game/v1/list",
+            data: "pn=" + a + "&pageSize=9",
+            error: function (a, b, c) {
                 333 == a.responseJSON.code ? alert("\u64cd\u4f5c\u8fc7\u5feb") : alert("Connection error")
-            }, success: function (a) {
-                200 == a.code ? (k(a), l(a)) : 333 == a.code ? alert("\u64cd\u4f5c\u8fc7\u5feb") : alert(a.message)
+            },
+            success: function (a) {
+                200 == a.statusCode ? (k(a), l(a)) : 333 == a.code ? alert("\u64cd\u4f5c\u8fc7\u5feb") : alert(a.message)
             }
         })
     }
 
     function k(a) {
-        $("#bookList").empty();
+        $("#gameList").empty();
         $.each(a.data.page.list, function (a, b) {
-            a = $("<h3></h3>").append(b.name);
-            var e = $("<p></p>").append(b.description), f = $("<p></p>").append($("<span></span>").append(b.author)),
+            a = $("<h3></h3>").append(b.type);
+            var e = $("<p></p>").append(b.place), f = $("<p></p>").append($("<span></span>").append(b.peopleNum)),
                 g =
                     $("<a></a>").attr("href", "/book/detail?bookid=" + b.uid).append("\u67e5\u770b\u8be6\u60c5");
             b = $("<span></span>").addClass("pull-right").css({
@@ -25,7 +29,7 @@ $(function () {
                 d = $("<div></div>").addClass("thumbnail").append();
             d.append(a).append(a).append(e).append(f).append($("<p></p>").append(g).append(b));
             h.append(d);
-            m.append(h).appendTo("#bookList")
+            m.append(h).appendTo("#gameList")
         })
     }
 

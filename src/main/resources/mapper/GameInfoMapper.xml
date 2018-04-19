@@ -60,4 +60,12 @@
     from game_info
     WHERE deleted = FALSE
   </select>
+    <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id, uid, user_uid, type, start_time,
+        place, people_num, description, end_time,
+        deleted, create_time,
+        update_time
+        from game_info
+        where type = #{type,jdbcType=VARCHAR} AND deleted = FALSE
+    </select>
 </mapper>

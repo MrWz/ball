@@ -13,6 +13,8 @@ public interface GameInfoDao {
 
     GameInfo selectByUid(String uid);
 
+    List<GameInfo> selectByType(String type);
+
     List<GameInfo> selectAll();
 
     int updateByPrimaryKey(GameInfo record);

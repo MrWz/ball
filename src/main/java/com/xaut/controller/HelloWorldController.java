@@ -22,11 +22,15 @@ import java.util.List;
  * Description :
  * Version :
  */
-@RestController
+@Controller
 public class HelloWorldController {
 
     @Autowired
     private RedisLockUtil redisLockUtil;
+    @RequestMapping(value = "/index" , method = RequestMethod.GET)
+    public String index(){
+        return "index";
+    }
 
     @RequestMapping(value = "/hello" , method = RequestMethod.POST)
     public String say(@RequestParam(value="name") String name,

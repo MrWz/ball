@@ -78,7 +78,7 @@ public class UserController {
             /**
              *  todo
              */
-            return ResultBuilder.create().code(200).message("注册成功").data("userinfo", user).build();
+            return ResultBuilder.create().code(200).message("注册成功").data("data", user).build();
         }
         return ResultBuilder.create().code(500).message("用户名已存在").build();
     }
@@ -110,7 +110,7 @@ public class UserController {
              */
             response.setHeader(HeaderConstant.X_AUTH_TOKEN, model.toString());
             response.setHeader("username", user.getName());
-            return ResultBuilder.create().code(200).message("请去首页进行选购").data("userinfo", user).build();
+            return ResultBuilder.create().code(200).message("请去首页进行选购").data("data", user).build();
         }
         return ResultBuilder.create().code(500).message("密码错误").build();
     }
@@ -137,7 +137,7 @@ public class UserController {
     @RequestMapping(value = "/typeList", method = RequestMethod.GET)
     public Object typeList() {
         List<TypeInfo> typeList = typeInfoDao.selectAll();
-        return ResultBuilder.create().code(200).data("typeList", typeList).build();
+        return ResultBuilder.create().code(200).data("data", typeList).build();
     }
 
     /**
@@ -148,7 +148,31 @@ public class UserController {
     @RequestMapping(value = "/placeList", method = RequestMethod.GET)
     public Object placeList() {
         List<SportPlace> sportPlaceList = sportPlaceDao.selectAll();
-        return ResultBuilder.create().code(200).data("typeInfoList", sportPlaceList).build();
+        return ResultBuilder.create().code(200).data("data", sportPlaceList).build();
+    }
+
+    /**
+     * 根据当前用户获取其参加的比赛列表
+     *
+     * @return 获得当前用户参加的比赛列表
+     */
+    @Authorization
+    @RequestMapping(value = "/userGame", method = RequestMethod.GET)
+    public Object userGameList(@CurrentUser UserInfo user) {
+        List<GameInfo> gameInfoList = gameService.selectUserGames(user);
+        return ResultBuilder.create().code(200).data("data", gameInfoList).build();
+    }
+
+    /**
+     * 根据当前用户获取其发布的比赛列表
+     *
+     * @return 获得当前用户发布的比赛列表
+     */
+    @Authorization
+    @RequestMapping(value = "/authorGame", method = RequestMethod.GET)
+    public Object authorGameList(@CurrentUser UserInfo user) {
+        List<GameInfo> gameInfoList = gameService.selectAuthorGames(user);
+        return ResultBuilder.create().code(200).data("data", gameInfoList).build();
     }
 
     /**

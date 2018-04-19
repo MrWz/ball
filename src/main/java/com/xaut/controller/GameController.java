@@ -7,10 +7,7 @@ import com.xaut.entity.UserInfo;
 import com.xaut.service.GameService;
 import com.xaut.util.ResultBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,6 +44,19 @@ public class GameController {
         PageInfo<GameInfo> page = new PageInfo<>(allGame, navigatePages);
         return ResultBuilder.create().code(200).data("gameInfoList", page).build();
     }
+
+    /**
+     * 按类型查询比赛
+     * @param type 比赛类型
+     * @return 符合条件的比赛列表
+     */
+    @PostMapping("/search")
+    public Object search(@RequestParam(value = "type") String type){
+        List<GameInfo> typeGame = gameService.selectByType(type);
+
+        return ResultBuilder.create().code(200).data("data", typeGame).build();
+    }
+
 
     /**
      * 用户发布比赛

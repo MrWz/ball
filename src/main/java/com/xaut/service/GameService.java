@@ -20,6 +20,13 @@ public interface GameService {
     List<GameInfo> selectAll();
 
     /**
+     * 查询比赛列表
+     *
+     * @return 返回比赛列表
+     */
+    List<GameInfo> selectByType(String type);
+
+    /**
      * 发布比赛
      *
      * @param userInfo 当前用户
@@ -55,4 +62,18 @@ public interface GameService {
      * @return 结束是否成功
      */
     boolean end(UserInfo userInfo, String gameUid);
+
+    /**
+     * 根据当前用户获取其参加的比赛
+     * @param userInfo 当前用户对象
+     * @return 该用户参加的所有比赛
+     */
+    List<GameInfo> selectUserGames(UserInfo userInfo);
+
+    /**
+     * 根据当前用户获取其发布的比赛
+     * @param userInfo 当前用户对象
+     * @return 该用户发布的所有比赛
+     */
+    List<GameInfo> selectAuthorGames(UserInfo userInfo);
 }
