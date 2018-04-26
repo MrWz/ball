@@ -141,7 +141,7 @@ public class GameServiceImpl implements GameService {
          */
         Date newStartTime = gameInfo.getStartTime();
         Date newEndTime = gameInfo.getEndTime();
-        List<UserGame> userGameList = userGameDao.selectByUserUid(userInfo.getUid());
+        List<UserGame> userGameList = userGameDao.selectByUserUid("818dca56fb214cadad11562c334a0deb");
         for (UserGame userGame : userGameList) {
             String userGameUid = userGame.getGameUid();
             if (userGameUid.equals(gameUid)) {
@@ -151,7 +151,10 @@ public class GameServiceImpl implements GameService {
             Date oldStartTime = userGameInfo.getStartTime();
             Date oldEndTime = userGameInfo.getEndTime();
             // TODO: 2018/4/19 时间处理不严谨bug
-            if (!(newEndTime.before(oldStartTime) || newStartTime.after(oldEndTime))) {
+//            if (!(newEndTime.before(oldStartTime) || newStartTime.after(oldEndTime))) {
+//                throw new BusinessException(ErrorsEnum.EX_20016.getCode(), ErrorsEnum.EX_20016.getMessage());
+//            }
+            if(isOverlap(newStartTime,newEndTime,oldStartTime,oldEndTime)){
                 throw new BusinessException(ErrorsEnum.EX_20016.getCode(), ErrorsEnum.EX_20016.getMessage());
             }
         }
@@ -167,6 +170,20 @@ public class GameServiceImpl implements GameService {
         userGame.setUpdateTime(new Date());
         userGameDao.insert(userGame);
         return true;
+    }
+
+    private static boolean isOverlap(Date leftStartDate, Date leftEndDate, Date rightStartDate, Date rightEndDate) {
+        return ((leftStartDate.getTime() >= rightStartDate.getTime())
+                && leftStartDate.getTime() < rightEndDate.getTime())
+                ||
+                ((leftStartDate.getTime() > rightStartDate.getTime())
+                        && leftStartDate.getTime() <= rightEndDate.getTime())
+                ||
+                ((rightStartDate.getTime() >= leftStartDate.getTime())
+                        && rightStartDate.getTime() < leftEndDate.getTime())
+                ||
+                ((rightStartDate.getTime() > leftStartDate.getTime())
+                        && rightStartDate.getTime() <= leftEndDate.getTime());
     }
 
     @Override
@@ -212,7 +229,7 @@ public class GameServiceImpl implements GameService {
 
         // TODO: 2018/4/19 未测试，发布者关闭比赛后，将usergame表更新
         List<UserGame> userGameList = userGameDao.selectByGameUid(gameUid);
-        for(UserGame userGame:userGameList){
+        for (UserGame userGame : userGameList) {
             userGame.setDeleted(true);
             userGameDao.updateByPrimaryKey(userGame);
         }
@@ -225,7 +242,7 @@ public class GameServiceImpl implements GameService {
         String userUid = userInfo.getUid();
         List<UserGame> userGameList = userGameDao.selectByUserUid("818dca56fb214cadad11562c334a0deb");
         List<GameInfo> gameInfoList = new ArrayList<>();
-        for(UserGame userGame:userGameList){
+        for (UserGame userGame : userGameList) {
             String gameUid = userGame.getGameUid();
             GameInfo gameInfo = gameInfoDao.selectByUid(gameUid);
             gameInfoList.add(gameInfo);
@@ -238,10 +255,10 @@ public class GameServiceImpl implements GameService {
         String userUid = userInfo.getUid();
         List<UserGame> userGameList = userGameDao.selectByUserUid("818dca56fb214cadad11562c334a0deb");
         List<GameInfo> gameInfoList = new ArrayList<>();
-        for(UserGame userGame:userGameList){
+        for (UserGame userGame : userGameList) {
             String gameUid = userGame.getGameUid();
             GameInfo gameInfo = gameInfoDao.selectByUid(gameUid);
-            if(gameInfo.getUserUid().equals("818dca56fb214cadad11562c334a0deb") ){
+            if (gameInfo.getUserUid().equals("818dca56fb214cadad11562c334a0deb")) {
                 gameInfoList.add(gameInfo);
             }
         }

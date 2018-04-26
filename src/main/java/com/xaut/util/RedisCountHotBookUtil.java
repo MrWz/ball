@@ -38,12 +38,12 @@ public class RedisCountHotBookUtil<T extends GetRedisKey> {
             String trueType = strType[strType.length - 1];
 
             Jedis jedis = jedisPool.getResource();
-            String key = null;
+            String key;
             if (StringUtils.equals(trueType, "Book")) {
                 key = "bookUid:" + obj.getUid();
                 byte[] bytes = ProtoStuffSerializerUtil.serialize(obj);
                 // 超时缓存
-                int timeout = 60 * 60;//商品缓存1小时
+                int timeout = 60 * 60 * 24;//商品缓存1小时
                 String result = jedis.setex(key.getBytes(), timeout, bytes);
                 jedis.close();
                 return result;

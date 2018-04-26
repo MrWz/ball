@@ -2,17 +2,20 @@ package com.xaut.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xaut.dao.PostInfoDao;
 import com.xaut.entity.AnswerInfo;
 import com.xaut.entity.PostInfo;
 import com.xaut.entity.UserInfo;
 import com.xaut.service.ForumService;
 import com.xaut.service.UserService;
+import com.xaut.util.RedisTopTenUtil;
 import com.xaut.util.ResultBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by user on 2018/4/8.
@@ -22,13 +25,18 @@ import java.util.List;
 public class ForumController {
 
     private final ForumService forumService;
-
     private final UserService userService;
+    private final RedisTopTenUtil redisTopTenUtil;
+    private final PostInfoDao postInfoDao;
 
     @Autowired
-    public ForumController(ForumService forumService, UserService userService) {
+    public ForumController(ForumService forumService,
+                           UserService userService,
+                           RedisTopTenUtil redisTopTenUtil, PostInfoDao postInfoDao) {
         this.forumService = forumService;
         this.userService = userService;
+        this.redisTopTenUtil = redisTopTenUtil;
+        this.postInfoDao = postInfoDao;
     }
 
     /**
@@ -64,6 +72,7 @@ public class ForumController {
     @RequestMapping(value = "/detail/{postId}", method = RequestMethod.POST)
     public Object list(@PathVariable int postId) {
         List<AnswerInfo> answerInfoList = forumService.selectByPostId(postId);
+        redisTopTenUtil.putRedisTopTen(postId);
         List<UserInfo> userInfoList = new ArrayList<>();
         for (AnswerInfo answerInfo : answerInfoList) {
             String userUid = answerInfo.getUserUid();
@@ -166,5 +175,23 @@ public class ForumController {
     public Object dFoot(@PathVariable int answerId) {
         forumService.doFoot(answerId);
         return ResultBuilder.create().code(200).message("点踩成功").build();
+    }
+
+    /**
+     * 获取帖子TOP-TEN
+     *
+     * @return 帖子点击量最多的10个帖子，不够是个返回全部
+     */
+    @RequestMapping(value = "/topTen", method = RequestMethod.GET)
+    public Object topTen() {
+        Set<String> postIds = redisTopTenUtil.getInRedisTopTen();
+        List<PostInfo> allPost = new ArrayList<>();
+        for (String postIdStr : postIds) {
+            int postID = Integer.parseInt(postIdStr);
+            PostInfo postInfo = postInfoDao.selectByPrimaryKey(postID);
+            allPost.add(postInfo);
+        }
+        return ResultBuilder.create().code(200).data("data", allPost).build();
+
     }
 }

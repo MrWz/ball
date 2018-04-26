@@ -17,4 +17,7 @@ public class Constant {
 
     public static final String START = "start";
     public static final String END = "end";
+
+    public final static String TOP_TEN_KEY = "TOP_TEN_KEY";
+
 }
