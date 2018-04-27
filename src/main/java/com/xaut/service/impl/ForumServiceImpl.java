@@ -16,25 +16,42 @@ import java.util.List;
 
 /**
  * Author ： wangzhe
- * Description : 用户接口服务
+ * Description : 论坛接口服务
  * Version : 0.1
  */
 @Service(value = "ForumService")
 @Slf4j
 public class ForumServiceImpl implements ForumService {
 
-    @Autowired
-    private PostInfoDao postInfoDao;
+    private final PostInfoDao postInfoDao;
+    private final AnswerInfoDao answerInfoDao;
+    private final UserRoleDao userRoleDao;
 
     @Autowired
-    private AnswerInfoDao answerInfoDao;
-
-    @Autowired
-    private UserRoleDao userRoleDao;
+    public ForumServiceImpl(PostInfoDao postInfoDao, AnswerInfoDao answerInfoDao, UserRoleDao userRoleDao) {
+        this.postInfoDao = postInfoDao;
+        this.answerInfoDao = answerInfoDao;
+        this.userRoleDao = userRoleDao;
+    }
 
     @Override
     public List<PostInfo> selectAll() {
         return postInfoDao.selectAll();
+    }
+
+    @Override
+    public List<PostInfo> selectUserPosts(UserInfo userInfo) {
+        //TODO 在线用户
+        userInfo.setUid("e05276cc0e504c719bf5c05ceb36731f");
+        return postInfoDao.selectByUserUid(userInfo.getUid());
+    }
+
+    @Override
+    public List<AnswerInfo> selectUserAnswers(UserInfo userInfo) {
+        //TODO 在线用户
+        userInfo.setUid("cca6148145e04362bd44a1de59c675e4");
+        return answerInfoDao.selectByUserUid(userInfo.getUid());
+
     }
 
     @Override
@@ -56,6 +73,12 @@ public class ForumServiceImpl implements ForumService {
     @Override
     public List<AnswerInfo> selectByPostId(int postId) {
         return answerInfoDao.selectByPostId(postId);
+    }
+
+    // TODO: 2018/4/26 未测试
+    @Override
+    public PostInfo selectPostById(int postId) {
+        return postInfoDao.selectByPrimaryKey(postId);
     }
 
     @Override

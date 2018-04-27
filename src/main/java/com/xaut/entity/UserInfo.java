@@ -27,6 +27,9 @@ public class UserInfo implements GetRedisKey{
 
     private Date updateTime;
 
+    public UserInfo(String name){
+        this.name= name;
+    }
     public UserInfo(String uid,String name,String password,String picture,Boolean deleted,Date creteTime,Date updateTime){
         this.uid = uid;
         this.name =name;

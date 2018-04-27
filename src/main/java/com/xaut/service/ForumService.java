@@ -21,6 +21,20 @@ public interface ForumService {
     List<PostInfo> selectAll();
 
     /**
+     * 查询当前用户发布的所有帖子
+     *
+     * @return 帖子列表
+     */
+    List<PostInfo> selectUserPosts(UserInfo userInfo);
+
+    /**
+     * 查询当前用户发布的所有回复
+     *
+     * @return 回复列表
+     */
+    List<AnswerInfo> selectUserAnswers(UserInfo userInfo);
+
+    /**
      * 发帖
      *
      * @param userInfo 当前用户
@@ -36,6 +50,15 @@ public interface ForumService {
      * @return 回复列表
      */
     List<AnswerInfo> selectByPostId(int postId);
+
+
+    /**
+     * 根据Id获取帖子详情
+     *
+     * @param postId 帖子Id
+     * @return 帖子详情
+     */
+    PostInfo selectPostById(int postId);
 
     /**
      * 用户删帖

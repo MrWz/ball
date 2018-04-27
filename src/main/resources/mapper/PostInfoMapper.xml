@@ -43,4 +43,8 @@
     select id, user_uid, title, num, deleted, create_time, update_time, content
     from post_info WHERE deleted = FALSE
   </select>
+  <select id="selectByUserUid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, user_uid, title, num, deleted, create_time, update_time, content
+    from post_info WHERE user_uid = #{userUid,jdbcType = VARCHAR} and deleted = FALSE
+  </select>
 </mapper>

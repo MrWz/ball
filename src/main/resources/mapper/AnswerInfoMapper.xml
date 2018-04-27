@@ -47,7 +47,12 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, post_id, user_uid, hand_num, foot_num, deleted, create_time, update_time, 
     answer_context
-    from answer_info
+    from answer_info WHERE deleted = FALSE
+  </select>
+  <select id="selectByUserUid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, post_id, user_uid, hand_num, foot_num, deleted, create_time, update_time,
+    answer_context
+    from answer_info WHERE deleted=FALSE AND user_uid = #{userUid,jdbcType = VARCHAR}
   </select>
   <select id="selectByPostId" resultMap="BaseResultMap" >
     select id, post_id, user_uid, hand_num, foot_num, deleted, create_time, update_time,

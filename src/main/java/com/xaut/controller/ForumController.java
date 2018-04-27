@@ -2,6 +2,8 @@ package com.xaut.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xaut.Vo.UserAndPostListVo;
+import com.xaut.Vo.UserPostDetailVo;
 import com.xaut.dao.PostInfoDao;
 import com.xaut.entity.AnswerInfo;
 import com.xaut.entity.PostInfo;
@@ -10,10 +12,12 @@ import com.xaut.service.ForumService;
 import com.xaut.service.UserService;
 import com.xaut.util.RedisTopTenUtil;
 import com.xaut.util.ResultBuilder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -53,14 +57,17 @@ public class ForumController {
                        @RequestParam(defaultValue = "5") Integer navigatePages) {
         PageHelper.startPage(pn, pageSize);
         List<PostInfo> allPost = forumService.selectAll();
-        List<UserInfo> userInfoList = new ArrayList<>();
+        List<UserAndPostListVo> userAndPostListVooList = new ArrayList<>();
         for (PostInfo postInfo : allPost) {
+            UserAndPostListVo userAndPostListVo = new UserAndPostListVo();
             String userUid = postInfo.getUserUid();
-            userInfoList.add(userService.selectByUid(userUid));
+            UserInfo userInfo = userService.selectByUid(userUid);
+            BeanUtils.copyProperties(postInfo, userAndPostListVo);
+            BeanUtils.copyProperties(userInfo, userAndPostListVo);
+            userAndPostListVooList.add(userAndPostListVo);
         }
-        PageInfo<PostInfo> pagePost = new PageInfo<>(allPost, navigatePages);
-        // TODO: 2018/4/13 返回值
-        return ResultBuilder.create().code(200).data("postInfoList", pagePost).data("userInfoList", userInfoList).build();
+        PageInfo<UserAndPostListVo> pagePost = new PageInfo<>(userAndPostListVooList, navigatePages);
+        return ResultBuilder.create().code(200).data("data", pagePost).build();
     }
 
     /**
@@ -71,15 +78,21 @@ public class ForumController {
      */
     @RequestMapping(value = "/detail/{postId}", method = RequestMethod.POST)
     public Object list(@PathVariable int postId) {
+        PostInfo postInfo = forumService.selectPostById(postId);
         List<AnswerInfo> answerInfoList = forumService.selectByPostId(postId);
         redisTopTenUtil.putRedisTopTen(postId);
-        List<UserInfo> userInfoList = new ArrayList<>();
+        List<UserPostDetailVo> userPostDetailList = new ArrayList<>();
+
         for (AnswerInfo answerInfo : answerInfoList) {
+            UserPostDetailVo userPostDetailVo = new UserPostDetailVo();
             String userUid = answerInfo.getUserUid();
-            userInfoList.add(userService.selectByUid(userUid));
+            UserInfo userInfo = userService.selectByUid(userUid);
+            BeanUtils.copyProperties(userInfo, userPostDetailVo);
+            BeanUtils.copyProperties(answerInfo, userPostDetailVo);
+            userPostDetailList.add(userPostDetailVo);
         }
-        // TODO: 2018/4/13 返回值
-        return ResultBuilder.create().code(200).data("answerInfoList", answerInfoList).data("userInfoList", userInfoList).build();
+        return ResultBuilder.create().code(200).data("post", postInfo)
+                .data("data", userPostDetailList).build();
     }
 
     /**
@@ -191,7 +204,7 @@ public class ForumController {
             PostInfo postInfo = postInfoDao.selectByPrimaryKey(postID);
             allPost.add(postInfo);
         }
+        Collections.reverse(allPost);
         return ResultBuilder.create().code(200).data("data", allPost).build();
-
     }
 }

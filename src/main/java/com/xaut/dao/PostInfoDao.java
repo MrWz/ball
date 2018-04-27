@@ -15,5 +15,7 @@ public interface PostInfoDao {
 
     List<PostInfo> selectAll();
 
+    List<PostInfo> selectByUserUid(String userUid);
+
     boolean updateByPrimaryKey(PostInfo record);
 }

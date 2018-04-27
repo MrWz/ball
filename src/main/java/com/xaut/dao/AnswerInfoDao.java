@@ -15,6 +15,8 @@ public interface AnswerInfoDao {
 
     List<AnswerInfo> selectAll();
 
+    List<AnswerInfo> selectByUserUid(String userUid);
+
     boolean updateByPrimaryKey(AnswerInfo record);
 
     List<AnswerInfo> selectByPostId(int postId);

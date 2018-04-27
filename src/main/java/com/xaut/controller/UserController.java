@@ -1,27 +1,37 @@
 package com.xaut.controller;
 
+import com.xaut.Vo.UserAnswerVo;
 import com.xaut.constant.HeaderConstant;
 import com.xaut.dao.SportPlaceDao;
 import com.xaut.dao.TypeInfoDao;
 import com.xaut.dao.UserInfoDao;
 import com.xaut.dto.TokenModel;
-import com.xaut.dto.UserInfoDto;
+import com.xaut.entity.AnswerInfo;
 import com.xaut.entity.GameInfo;
+import com.xaut.entity.PostInfo;
 import com.xaut.entity.SportPlace;
 import com.xaut.entity.TypeInfo;
 import com.xaut.entity.UserInfo;
 import com.xaut.manager.TokenManager;
+import com.xaut.service.ForumService;
 import com.xaut.service.GameService;
 import com.xaut.service.UserService;
 import com.xaut.util.ResultBuilder;
 import com.xaut.web.annotation.Authorization;
 import com.xaut.web.annotation.CurrentUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,25 +45,22 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
     private final UserInfoDao userInfoDao;
-
     private final TypeInfoDao typeInfoDao;
-
     private final SportPlaceDao sportPlaceDao;
-
     private final TokenManager tokenManager;
-
     private final GameService gameService;
+    private final ForumService forumService;
 
     @Autowired
-    public UserController(UserService userService, UserInfoDao userInfoDao, TypeInfoDao typeInfoDao, SportPlaceDao sportPlaceDao, TokenManager tokenManager, GameService gameService) {
+    public UserController(UserService userService, UserInfoDao userInfoDao, TypeInfoDao typeInfoDao, SportPlaceDao sportPlaceDao, TokenManager tokenManager, GameService gameService, ForumService forumService) {
         this.userService = userService;
         this.userInfoDao = userInfoDao;
         this.typeInfoDao = typeInfoDao;
         this.sportPlaceDao = sportPlaceDao;
         this.tokenManager = tokenManager;
         this.gameService = gameService;
+        this.forumService = forumService;
     }
 
 
@@ -173,6 +180,36 @@ public class UserController {
     public Object authorGameList(@CurrentUser UserInfo user) {
         List<GameInfo> gameInfoList = gameService.selectAuthorGames(user);
         return ResultBuilder.create().code(200).data("data", gameInfoList).build();
+    }
+
+
+    /**
+     * 根据当前用户获取其发布的帖子列表
+     */
+    @Authorization
+    @RequestMapping(value = "/userPost", method = RequestMethod.GET)
+    public Object userPostList(@CurrentUser UserInfo user) {
+        List<PostInfo> postInfoList = forumService.selectUserPosts(user);
+        return ResultBuilder.create().code(200).data("data", postInfoList).build();
+    }
+
+    /**
+     * 根据当前用户获取其发布的回复列表
+     */
+    @Authorization
+    @RequestMapping(value = "/userAnswer", method = RequestMethod.GET)
+    public Object userAnwserList(@CurrentUser UserInfo user) {
+        List<AnswerInfo> answerInfoList = forumService.selectUserAnswers(user);
+        List<UserAnswerVo> userAnswerVoList = new ArrayList<>();
+        for (AnswerInfo answerInfo : answerInfoList) {
+            UserAnswerVo userAnswerVo = new UserAnswerVo();
+            PostInfo postInfo = forumService.selectPostById(answerInfo.getPostId());
+            BeanUtils.copyProperties(answerInfo, userAnswerVo);
+            BeanUtils.copyProperties(postInfo, userAnswerVo);
+            userAnswerVoList.add(userAnswerVo);
+        }
+
+        return ResultBuilder.create().code(200).data("data", userAnswerVoList).build();
     }
 
     /**
