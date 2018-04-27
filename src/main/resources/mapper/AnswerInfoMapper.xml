@@ -59,5 +59,10 @@
     answer_context
     from answer_info WHERE post_id = #{postId,jdbcType=INTEGER} and deleted = FALSE
   </select>
+  <select id="selectByPostIdTopten" resultMap="BaseResultMap" >
+    select *
+    from answer_info  WHERE post_id = #{postId,jdbcType=INTEGER} and deleted = FALSE
+    ORDER BY hand_num DESC LIMIT 0,10
+  </select>
 
 </mapper>

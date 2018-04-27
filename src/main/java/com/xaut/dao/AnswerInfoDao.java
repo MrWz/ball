@@ -20,4 +20,6 @@ public interface AnswerInfoDao {
     boolean updateByPrimaryKey(AnswerInfo record);
 
     List<AnswerInfo> selectByPostId(int postId);
+
+    List<AnswerInfo> selectByPostIdTopten(int postId);
 }

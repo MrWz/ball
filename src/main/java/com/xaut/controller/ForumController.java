@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xaut.Vo.UserAndPostListVo;
 import com.xaut.Vo.UserPostDetailVo;
+import com.xaut.dao.AnswerInfoDao;
 import com.xaut.dao.PostInfoDao;
 import com.xaut.entity.AnswerInfo;
 import com.xaut.entity.PostInfo;
@@ -12,6 +13,7 @@ import com.xaut.service.ForumService;
 import com.xaut.service.UserService;
 import com.xaut.util.RedisTopTenUtil;
 import com.xaut.util.ResultBuilder;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,15 +34,16 @@ public class ForumController {
     private final UserService userService;
     private final RedisTopTenUtil redisTopTenUtil;
     private final PostInfoDao postInfoDao;
-
+    private final AnswerInfoDao answerInfoDao;
     @Autowired
     public ForumController(ForumService forumService,
                            UserService userService,
-                           RedisTopTenUtil redisTopTenUtil, PostInfoDao postInfoDao) {
+                           RedisTopTenUtil redisTopTenUtil, PostInfoDao postInfoDao, AnswerInfoDao answerInfoDao) {
         this.forumService = forumService;
         this.userService = userService;
         this.redisTopTenUtil = redisTopTenUtil;
         this.postInfoDao = postInfoDao;
+        this.answerInfoDao = answerInfoDao;
     }
 
     /**
@@ -206,5 +209,15 @@ public class ForumController {
         }
         Collections.reverse(allPost);
         return ResultBuilder.create().code(200).data("data", allPost).build();
+    }
+    /**
+     * 获取某个帖子点赞数最多的10条回复
+     *
+     * @return 某个帖子点赞数最多的10条回复，不够是个返回全部
+     */
+    @RequestMapping(value = "/hotReply/{postID}", method = RequestMethod.POST)
+    public Object hotReply(@PathVariable int postID) {
+        List<AnswerInfo> allAnswer= answerInfoDao.selectByPostIdTopten(postID);
+        return ResultBuilder.create().code(200).data("data", allAnswer).build();
     }
 }
